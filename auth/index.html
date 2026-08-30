@@ -23,13 +23,15 @@
             
         <script>
             const form = document.querySelector("form");
+            //alert(localStorage.getItem("crm_session")[0]);
 
             form.addEventListener("submit", (e) => {
                 e.preventDefault();
                 const success = logIn(e);
 
                 if(success) {
-                   window.location.replace("../general/dashboard.html");
+                    localStorage.setItem("currentPage", 1);
+                    window.location.replace("../general/dashboard.html");
                 }
                 
             });

@@ -1,52 +1,103 @@
-function Nav() {
-    document.getElementById("navContainer").innerHTML = `
-    <img src="../components/logo2.jpg" alt="Logo" class="logo" style="width: 50px; height: 50px; border-radius: 50%;" />
-    <!-- <button class="hamburger" id="hamburger" aria-label="Menu"> -->
 
+
+// console.log(localStorage.getItem("theme"));
+
+// var darkvar = false;
+function logOut() {
+    console.log("Logging out...");
+    localStorage.removeItem("crm_session");
+    window.location.replace("../auth/index.html");
+}
+
+// document.body.classList.add("light-theme");
+
+function dark(){
+    // if (localStorage["theme"] == null) {localStorage.setItem("theme", "light");}
+    var darkvar = localStorage.getItem("theme")=="dark" ? true : false;
+    if (!darkvar) {
+        localStorage["theme"] = "dark";
+        // document.body.classList.remove("light-theme");
+        document.body.classList.add("dark-theme");
+    } else {
+        localStorage["theme"] = "light";
+        document.body.classList.remove("dark-theme");
+        // document.body.classList.add("light-theme");
+    }
+    console.log(localStorage.getItem("theme"));
+}
+
+function Nav() {
+    if (localStorage["theme"] == null) {localStorage.setItem("theme", "light"); }
+    if (localStorage["theme"] == "dark") {
+        console.log("here")
+        // document.body.classList.remove("light-theme");
+        document.body.classList.add("dark-theme");
+    }
+
+    document.getElementById("navContainer").innerHTML = `
+        <button class="logo"><a href="dashboard.html"><img src="../components/logo2.png" alt="Logo" class="logo"/></a></button>
         <nav class="navigation">
             <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="clients.html">Clients</a></li>
-                <li><a href="profile.html">Profile</a></li>
+                <li class="inactive"><a href="dashboard.html">Dashboard</a></li>
+                <li class="inactive"><a href="clients.html">Clients</a></li>
+                <li class="inactive"><a href="profile.html">Profile</a></li>
             </ul>
         </nav>
 
-        <div class="mobile-nav" id="mobileNav">
+        <div></div>
+        <div class="buttons" id="buttons">
             <ul>
-                <li><button id="logOutBtn">Log out</button></li>
+                <li><button id="logOutBtn" ></button></li>
+                <li><button id="themeToggle" aria-label="Toggle Theme"></button></li>
             </ul>
         </div>
-
-        <button id="logOut" aria-label="Log Out">
-            <!-- <span></span>
-            <span></span>
-            <span></span> -->
-        </button>
-
-        <button id="themeToggle" aria-label="Toggle Theme"></button>
-
-        <!-- <div class="overlay" id="overlay"></div> -->`;
-
-    const hamburger = document.getElementById('logOut');
-    const mobileNav = document.getElementById('mobileNav');
-    // const overlay = document.getElementById('overlay');
-
-    function toggleMenu() {
-        hamburger.classList.toggle('active');
-        mobileNav.classList.toggle('open');
-        // overlay.classList.toggle('visible');
+        `;
+    switch(localStorage.getItem("currentPage")){
+        case "1": {
+            document.querySelectorAll('nav ul li')[0].classList.remove("inactive");
+            document.querySelectorAll('nav ul li')[0].classList.add("active");
+            break;}
+        case "2": {
+            document.querySelectorAll('nav ul li')[1].classList.remove("inactive");
+            document.querySelectorAll('nav ul li')[1].classList.add("active");
+            break;}
+        case "3": {
+            document.querySelectorAll('nav ul li')[2].classList.remove("inactive");
+            document.querySelectorAll('nav ul li')[2].classList.add("active");
+            break;}
     }
 
-    hamburger.addEventListener('click', toggleMenu);
-    // overlay.addEventListener('click', toggleMenu);
+    document.querySelector('nav').addEventListener("click", (e) =>
+    {   
+        var currentPage= 1;
+        switch(e.target.textContent) {
+            case "Dashboard" : {currentPage =1; break;}
+            case "Clients" : { currentPage =2; break;}
+            case "Profile" : { currentPage =3; break;}
+        }
+
+        localStorage.setItem("currentPage", currentPage);
+    })
+
 
     document.getElementById("logOutBtn").addEventListener("click", logOut);
+    document.getElementById("themeToggle").addEventListener("click", dark);
+    document.getElementById("logOutBtn").addEventListener("mouseenter", (e) => {
+        document.getElementById("logOutBtn").style.backgroundColor="grey";
+        document.getElementById("logOutBtn").textContent="Logout";
+    });
+    document.getElementById("logOutBtn").addEventListener("mouseleave", (e) => {
+        document.getElementById("logOutBtn").style.backgroundColor="white";
+        document.getElementById("logOutBtn").textContent="";
+    });
 
-    function logOut() {
-        console.log("Logging out...");
-        localStorage.removeItem("crm_session");
-        window.location.replace("../auth/index.html");
-    }
+    document.getElementById("themeToggle").addEventListener("mouseenter", (e) => {
+        document.getElementById("themeToggle").style.backgroundColor="grey";
+        document.getElementById("themeToggle").textContent="Switch";
+    });
+    document.getElementById("themeToggle").addEventListener("mouseleave", (e) => {
+        document.getElementById("themeToggle").style.backgroundColor="white";
+        document.getElementById("themeToggle").textContent="";
+    });
+
 }
-
-

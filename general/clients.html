@@ -5,12 +5,42 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../components/style.css" />
         <script src="../components/navbar.js"></script>
+        <script src="../general/guard.js"></script>
+        <script src="data.js"></script>
+        <script src="clients.js" defer></script>
     </head>
     <body>
         <div id="navContainer"></div>
-
         <script>
             Nav();
         </script>
+
+        <header>
+            <h1>Clients</h1>
+            <button id="add-btn">Add Client</button>
+        </header>
+
+        <div class="filter">
+            <form>
+                <label for="search"></label>
+                <input type="text" name="search">
+                <select>
+                    <option value="All">All</option>
+                    <option value="Lead">Lead</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Won">Won</option>
+                    <option value="Lost">Lost</option>
+                </select>
+            </form>
+        </div>
+        <!-- filter goes here -->
+
+        <div id="clients_container">
+
+        </div>
+
+        <!-- add elementit popup unda gvqondes da popups eqneba: -->
+        <!-- saxeli, kategoria, tanxis odenoba, klientis gachenis tarigi -->
+        <!-- notebi, notebis damatebis gilaki da reminderis gilaki timerit -->
     </body>
 </html>

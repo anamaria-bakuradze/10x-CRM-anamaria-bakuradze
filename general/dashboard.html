@@ -5,14 +5,73 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../components/style.css" />
         <script src="../components/navbar.js"></script>
+        <script src="data.js"></script>
+        <!-- <script src="../components/guard.js"></script> -->
     </head>
-    <body>
+    <body class="body">
         <div id="navContainer"></div>
 
         <script>
             Nav();
             const clients = document.getElementById("clients");
+            const crm_clients = fetchClients();
         </script>
-        <h1>Dashboard</h1>
+        <header>
+            <h1 >Dashboard</h1>
+        </header>
+
+        <h3 style="display: flex;" id="welcome">Welcome back, <script> const crm_users = JSON.parse(localStorage.getItem("crm_users"));
+        const crm_session = JSON.parse(localStorage.getItem("crm_session"));
+        document.write(crm_users.find(user => user["id"] === crm_session["userId"])["fullname"]);
+        </script>!<span id="time"></span></h3> 
+
+        <!-- <p id="time"> -->
+        <script>
+            var time = document.getElementById("time");
+            time.innerHTML = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+            setInterval(function() {
+                time.innerHTML = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+            }, 1000)
+        </script>
+        <!-- </p> -->
+
+        <div class = "dashboard-cards">
+            <div class="cards">
+                <h4>Total Clients</h4>
+                <!-- <p><script>document.write(crm_clients.length);</script></p> -->
+            </div>
+            <div class="cards">
+                <h4>Active Deals</h4>
+                <p><script>//document.write(crm_clients.filter(user => user["dealStatus"] !== "Won" && user["dealStatus"] !== "Lost").length);
+                   // console.log(crm_clients.filter(user => user["dealStatus"] !== "Won" && user["dealStatus"] !== "Lost"));
+                </script></p>
+            </div>
+            <div class="cards">
+                <h4>Won Revenue</h4>
+                <p><script>//document.write(crm_clients.filter(user => user["dealStatus"] === "Won").reduce((sum, user) => sum + user["revenue"], 0));</script></p>
+            </div>
+            <div class="cards">
+                <h4>New This Week</h4>
+                <p><script>//document.write(crm_clients.filter(user => new Date(user["createdAt"]) >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length);</script></p>
+            </div>
+        </div>
+
+        <div class="Recent Clients">
+            <!-- aq array gamochndeba clientebis profilebit -->
+        </div>
+
+        <div class = "pipelines">
+            <div class="lead"></div>
+            <div class="contacted"></div>
+            <div class="won"></div>
+            <div class="lost"></div>
+        </div>
+
+        <!-- <tbody>
+            <tr>
+                <th>Client's Name</th>
+                <th></th>
+            </tr>
+        </tbody> -->
     </body>
 </html>

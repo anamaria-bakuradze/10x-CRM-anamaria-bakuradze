@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./styles/styles.css" />
+        <script src="./scripts/clients.js" defer></script>
+        <script src="./scripts/nav.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <h1>CLIENTS</h1>
+            <button id="add-btn">Add Client</button>
+        </header>
+        
+        <div id="filter">
+            <form>
+                <label for="search">Search:</label>
+                <input type="text" name="search">
+                <select>
+                    <option value="All">All</option>
+                    <option value="Lead">Lead</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Won">Won</option>
+                    <option value="Lost">Lost</option>
+                </select>
+            </form>
+        </div>
+
+        <div id="clients_container">
+            <!-- aq klientebi iqnebian -->
+        </div>
+    </body>
+</html>
