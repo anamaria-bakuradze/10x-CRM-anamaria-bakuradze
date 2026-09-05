@@ -1,9 +1,9 @@
 
-if (localStorage.getItem("crm_session")&& ( window.location.href == window.location.origin + "/index.html" || window.location.href == window.location.origin + "/signup.html")) {
+if (localStorage.getItem("crm_session")&& ( window.location.href == window.location.origin + "/index.html" || window.location.href == window.location.origin + "/signup")) {
   window.location.replace("../general/dashboard.html");
   console.log("?");
 
-} else if (window.location.href != window.location.origin + "/index.html" && window.location.href != window.location.origin + "/signup.html") {
+} else if (window.location.href != window.location.origin + "/index.html" && window.location.href != window.location.origin + "/signup") {
   console.log("!");
   window.location.replace("../index.html");
 }
