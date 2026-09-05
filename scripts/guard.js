@@ -1,12 +1,12 @@
 
 if (localStorage.getItem("crm_session")) {
-  if ( window.location.href == window.location.origin + "/auth/index.html" || window.location.href == window.location.origin + "/auth/signup.html") {
+  if ( window.location.href == window.location.origin + "/index.html" || window.location.href == window.location.origin + "/signup.html") {
   // alert("here");
-    window.location.replace("../dashboard.html");
+    window.location.replace("../general/dashboard.html");
   } 
-} else if (window.location.href != window.location.origin + "/auth/index.html" && window.location.href != window.location.origin + "/auth/signup.html") {
+} else if (window.location.href != window.location.origin + "/index.html" && window.location.href != window.location.origin + "/signup.html") {
   // alert("here");
-    window.location.replace("../auth/index.html");
+    window.location.replace("../index.html");
 }
 
 // console.log(localStorage.getItem("crm_session"));
