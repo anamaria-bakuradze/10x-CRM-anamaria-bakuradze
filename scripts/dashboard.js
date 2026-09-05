@@ -81,9 +81,9 @@ function renderClients(){
     
     for(i=0; i<4;i++){
         const photo =document.createElement('img');
-        photo.setAttribute('src', crm_clients[i].avatar);
+        photo.setAttribute('src', crm_clients[i].avatar? crm_clients[i].avatar : "components/logo2.png");
         const name =document.createElement('h4');
-        name.textContent = crm_clients[i].fullname;
+        name.textContent = crm_clients[i].name;
         const status = document.createElement('span');
         status.style.display= 'block';
         

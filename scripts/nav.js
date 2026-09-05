@@ -42,6 +42,9 @@ function toggleTheme() {
 
 }
 
-function logOut() {
 
+function logOut() {
+    console.log("Logging out...");
+    localStorage.removeItem("crm_session");
+    window.location.replace("../auth/index.html");
 }

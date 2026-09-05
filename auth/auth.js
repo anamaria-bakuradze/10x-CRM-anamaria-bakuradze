@@ -1,6 +1,6 @@
 
 if (localStorage.getItem("crm_session")&& ( window.location.href == window.location.origin + "/auth/index.html" || window.location.href == window.location.origin + "/auth/signup.html")) {
-  window.location.replace("/general/dashboard.html");
+  window.location.replace("/dashboard.html");
 } else if (window.location.href != window.location.origin + "/auth/index.html" && window.location.href != window.location.origin + "/auth/signup.html") {
   window.location.replace("/auth/index.html");
 }
@@ -113,5 +113,3 @@ function logIn(event) {
   return true;
 
 }
-
-
