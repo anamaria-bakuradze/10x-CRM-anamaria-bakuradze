@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="./styles/styles.css" />
-        <script src="./scripts/profile.js" defer></script>
-        <script src="./scripts/nav.js" defer></script>
-        <script src="./scripts/guard.js" defer></script>
-
+        <link rel="stylesheet" href="../styles/styles.css" />
+        <script src="../scripts/profile.js" defer></script>
+        <script src="../scripts/nav.js" defer></script>
+        <script src="../scripts/guard.js" defer></script>
     </head>
     <body>
+        <header>
+            <h1>PROFILE</h1>
+        </header> 
 
+        <div>
+            <img>
+            <div>
+                <h3></h3>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div>
+            <form>
+                <input type="text" name="fullname" placeholder="">
+                <input type="text" name="company" placeholder="">
+                <input type="submit" value="Update">
+            </form>
+        </div>
+        <div>
+            <form>
+                <input type="password" name="oldPassword" placeholder="Old Password">
+                <input type="password" name="newPassword" placeholder="New Password">
+                <input type="password" name="confirmPassword" placeholder="Confirm New Password">
+                <input type="submit" value="Change Password">
+            </form>
+        </div>
+        <div>
+            <button id="logout">Logout</button>
+            <button id="deleteAccount">Delete Account</button>
+        </div>
+
+
+        </div>
     </body>
 </html>

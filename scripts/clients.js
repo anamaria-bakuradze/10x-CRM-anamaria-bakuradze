@@ -77,7 +77,7 @@ async function fetchClientsDummy(){
 
 async function renderClients(){
     const crm_clients = await fetchClients().then((res)=>res.slice(Client.start,Client.end));
-    Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).length;
+    Client.idAtAtime==0 ? Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).length : Client.idAtAtime = Client.idAtAtime;
 
     const container = document.getElementById("clients_container");
     container.innerHTML=``
@@ -91,7 +91,7 @@ async function renderClients(){
             <span class="client-id">Id: ${m.id}</span>
             <div class="name-container">
                 <span>
-                    <img src="${m.avatar==null ? './components/logo2.png' : m.avatar}">
+                    <img src="${m.avatar==null ? '../components/logo2.png' : m.avatar}">
                     <h5>${m.name}</h5>
                 </span>
             </div>
@@ -122,7 +122,7 @@ async function renderClients(){
             <div class="first">
                 <span class="deal-value">${m.dealValue}</span>
                 <span class="status">${m.status}</span>
-                <div><button class="delete-client"><img src="./components/delete.png"></button><button class="edit-client"><img src="./components/edit.png"></button></div>
+                <div><button class="delete-client"><img src="../components/delete.png"></button><button class="edit-client"><img src="../components/edit.png"></button></div>
             </div>
             <div class="second">
                 <span class="company">${m.company}</span>
@@ -326,7 +326,7 @@ function addClient(e) {
     toast.setAttribute("id", "toast");
     toast.textContent="Client has been added successfully!";
     const image = document.createElement("img");
-    image.setAttribute("src", "./components/stars.png");
+    image.setAttribute("src", "../components/stars.png");
     toast.appendChild(image);
     document.body.appendChild(toast);
     setTimeout(()=> {toast.remove()}, 1000);
@@ -436,7 +436,7 @@ function updateClient(e) {
         toast.setAttribute("id", "toast");
         toast.textContent="Client has been updated successfully!";
         const image = document.createElement("img");
-        image.setAttribute("src", "./components/stars.png");
+        image.setAttribute("src", "../components/stars.png");
         toast.appendChild(image);
         document.body.appendChild(toast);
         setTimeout(()=> {toast.remove()}, 1000);

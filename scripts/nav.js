@@ -1,7 +1,7 @@
 
 
 const icon = document.createElement('img');
-icon.setAttribute('src', './components/logo2.png');
+icon.setAttribute('src', '../components/logo2.png');
 icon.setAttribute('id', 'icon');
 
 const nav = document.createElement('nav');
@@ -17,7 +17,7 @@ nav.innerHTML =
     </div>
     <div><span></span></div>
     <div><span></span></div>
-    <div id="buttons"><button><img src="./components/logout.png" alt="log out"></button><span></span><button><img src="./components/toggle-off.png" alt="toggle theme"></button></div>
+    <div id="buttons"><button><img src="../components/logout.png" alt="log out"></button><span></span><button><img src="../components/toggle-off.png" alt="toggle theme"></button></div>
 `;
 nav.setAttribute('class', 'inactive');
 
@@ -45,7 +45,7 @@ function toggleTheme(e) {
     localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
     console.log("Theme changed to: " + localStorage.getItem('crm_theme'));
     document.body.setAttribute('class', localStorage.getItem('crm_theme'));
-    e.target.closest('button').querySelector('img').setAttribute('src', localStorage.getItem('crm_theme') == 'dark-theme' ? './components/toggle-on.png' : './components/toggle-off.png');
+    e.target.closest('button').querySelector('img').setAttribute('src', localStorage.getItem('crm_theme') == 'dark-theme' ? '../components/toggle-on.png' : '../components/toggle-off.png');
 }
 
 function logOut() {
