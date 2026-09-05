@@ -21,6 +21,8 @@ class Client {
     }
 }
 
+const userNumber = JSON.parse(localStorage.getItem("crm_session")) ? JSON.parse(localStorage.getItem("crm_session")).userId : null;
+
 const addBtn = document.getElementById("add-btn");
 addBtn.addEventListener("click", addNewClient);
 const containerBtnLeft = document.getElementById('left');
@@ -38,7 +40,7 @@ function users() {
 // -----------------------------------------------------------
 
 function reset() {
-    localStorage.removeItem('crm_clients');
+    localStorage.removeItem('crm_clients-' + userNumber);
     Client.start = 0;
     Client.end = 10;
     Client.currentPage = 1;
@@ -47,10 +49,10 @@ function reset() {
 }
 
 async function fetchClients(){
-  const cached = localStorage.getItem('crm_clients');
+  const cached = localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`);
   if (cached) return JSON.parse(cached);
   const data = await fetchClientsDummy();
-  localStorage.setItem('crm_clients', JSON.stringify(data));
+  localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(data));
   return data;
 }
 
@@ -63,7 +65,9 @@ async function fetchClientsDummy(){
             crm_clients.push(new Client(m));
         })
         // console.log(crm_clients);
-        localStorage.setItem("crm_clients", JSON.stringify(crm_clients));
+        const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name"; 
+        localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(crm_clients));
+        console.log("fetched clients data from dummyjson.com");
         // console.log(JSON.parse(localStorage.getItem("crm_clients")));
         return crm_clients;
     } catch (error) {
@@ -73,7 +77,7 @@ async function fetchClientsDummy(){
 
 async function renderClients(){
     const crm_clients = await fetchClients().then((res)=>res.slice(Client.start,Client.end));
-    Client.idAtAtime = JSON.parse(localStorage.getItem('crm_clients')).length;
+    Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).length;
 
     const container = document.getElementById("clients_container");
     container.innerHTML=``
@@ -204,7 +208,7 @@ function goPrevious() {
 }
 
 function goNext() {
-    const actualEnd = JSON.parse(localStorage.getItem('crm_clients')).length;
+    const actualEnd = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).length;
     if(!(Client.end+10 > actualEnd)){
         Client.currentPage +=1;
         Client.end+=10;
@@ -309,10 +313,10 @@ function addClient(e) {
 
     const newClient = new Client({firstName: firstName, lastName: lastName, company: {name: company}, email: email, phone: phone, dealValue: deal, status: status});
 
-    const crm_clients = JSON.parse(localStorage.getItem("crm_clients"));
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
     crm_clients.unshift(newClient);
-    localStorage.setItem("crm_clients", JSON.stringify(crm_clients));
-    
+    localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(crm_clients));
+
     renderClients();
 
     document.querySelector("#add-form").parentElement.remove();
@@ -321,9 +325,13 @@ function addClient(e) {
     const toast = document.createElement("span");
     toast.setAttribute("id", "toast");
     toast.textContent="Client has been added successfully!";
+    const image = document.createElement("img");
+    image.setAttribute("src", "./components/stars.png");
+    toast.appendChild(image);
     document.body.appendChild(toast);
     setTimeout(()=> {toast.remove()}, 1000);
     e.currentTarget.removeEventListener("submit", addClient);
+    console.log(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
 }
 
 function closeForm(e){
@@ -358,7 +366,7 @@ function addNewClient() {
 function editClient(e){
     if(document.getElementsByClassName('floating').length==0){
         console.log(document.getElementsByClassName('floating'));
-        const clients = JSON.parse(localStorage.getItem('crm_clients'));
+        const clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
         const id = e.target.closest('.client-cards').parentElement.querySelector('.client-id').textContent.split(' ')[1];
         const client = clients.find((m) => m.id == id);
         console.log(client);
@@ -405,7 +413,7 @@ function updateClient(e) {
     e.currentTarget.appendChild(confirmBtn);
     e.currentTarget.appendChild(cancelBtn);
     e.currentTarget.addEventListener("click", (e) => { 
-        const crm_clients = JSON.parse(localStorage.getItem("crm_clients"));
+        const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
         const client = crm_clients.find((m) => m.id == id);
 
         client.name = firstName + " " + lastName;
@@ -416,7 +424,7 @@ function updateClient(e) {
         client.status = status;
 
         crm_clients[crm_clients.findIndex((m) => m.id == id)] = client;
-        localStorage.setItem("crm_clients", JSON.stringify(crm_clients));
+        localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(crm_clients));
 
         renderClients();
 
@@ -427,6 +435,9 @@ function updateClient(e) {
         const toast = document.createElement("span");
         toast.setAttribute("id", "toast");
         toast.textContent="Client has been updated successfully!";
+        const image = document.createElement("img");
+        image.setAttribute("src", "./components/stars.png");
+        toast.appendChild(image);
         document.body.appendChild(toast);
         setTimeout(()=> {toast.remove()}, 1000);
         e.currentTarget.removeEventListener("submit", updateClient);
@@ -452,11 +463,11 @@ function deleteClient(e){
     confirmBtn.textContent= "Confirm Edit";
     confirmBtn.setAttribute('id', 'confirm');
     confirmBtn.addEventListener('click', (e) => {
-        const crm_clients = JSON.parse(localStorage.getItem("crm_clients"));
+        const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
         const clientIndex = crm_clients.findIndex((m) => m.id == id);
         if(clientIndex !== -1){
             crm_clients.splice(clientIndex, 1);
-            localStorage.setItem("crm_clients", JSON.stringify(crm_clients));
+            localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(crm_clients));
             renderClients();
             closeForm(e);
         }

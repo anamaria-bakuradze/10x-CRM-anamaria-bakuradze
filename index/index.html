@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../components/style.css" />
         <script src="auth.js"></script>
+        <script src="./scripts/guard.js" defer></script>
     </head>
     <body>
         <div id="auth">
@@ -31,7 +32,7 @@
 
                 if(success) {
                     localStorage.setItem("currentPage", 1);
-                    window.location.replace("../general/dashboard.html");
+                    window.location.replace("../dashboard.html");
                 }
                 
             });

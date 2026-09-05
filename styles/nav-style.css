@@ -7,7 +7,7 @@ nav {
     width: 220px;
     /* calc((210/1440)*100%); */
     display: grid;
-    grid-template-rows: 10% 40% auto 5%;
+    grid-template-rows: 10% 40% auto 7%;
     height: 100%;
     background-color: var(--shadow-color);
     z-index: 2;
@@ -54,44 +54,28 @@ nav.inactive {
     top:0;
 }
 #buttons {
-    display: grid;
-    grid-template-columns: 50% 50%;
+    display: flex;
+    justify-content: space-evenly;
 }
 #buttons button{
+    & > img {    
+        height: 2rem;
+        width: 2rem;
+    }
+    height: 3rem;
+    border-radius: 50%;
+    overflow: hidden;
     display: block;
     background-color: var(--shadow-color);
     border: none;
 }
 #buttons button:hover{
     cursor: pointer;
+    background-color: black;
+}
+#buttons button:first-child:hover{
     background-color: var(--accent);
 }
-#buttons button:first-child{
-    border-right: 1px solid var(--accent);
-    img {
-        margin:0;
-        padding-right:2rem;
-        height: 2rem;
-    }
-}
-
-#buttons button:last-child{
-    img {
-        padding-left: 2rem;
-        height: 2rem;
-    }
-}
-
-/* #icon-holder{
-    position: absolute;
-    background-color: var(--secondary);
-    border-radius: 1.74rem 0 0 1.74rem;
-    height: 3.5rem;
-    width: 100%;
-    top: 1.9rem;
-    left: 2rem;
-    width: calc((230/1440)*70/100-2rem);
-} */
 
 #icon {
     position: absolute;

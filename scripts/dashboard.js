@@ -20,8 +20,10 @@ const pipelinesContainer = document.querySelectorAll('.pipelines div');
 pipelinesContainer.forEach((each)=>{each.style.height = `${each.clientWidth*50/100}px`;})
 // the code above is for visuals only
 
+const userNumber = JSON.parse(localStorage.getItem("crm_session")) ? JSON.parse(localStorage.getItem("crm_session")).userId : null;
+
 function renderStatistics(){
-    const crm_clients = JSON.parse(localStorage.getItem("crm_clients"));
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
     const cards = document.querySelectorAll('.dashboard-cards div p');
     cards[0].textContent = crm_clients.length;
 
@@ -60,7 +62,7 @@ function renderStatistics(){
 }
 function renderPipeline(){
     const cards = document.querySelectorAll('.pipelines div p');
-    const crm_clients = JSON.parse(localStorage.getItem("crm_clients"));
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`));
     
     cards[0].textContent = crm_clients.filter((each)=>{return (each.status === "lead" || each.status === "Lead")}).length;
     cards[0].parentElement.style.backgroundColor='#33123f';//hsl(305.26,26.27%,42.55%)
@@ -76,7 +78,7 @@ function renderPipeline(){
 
 }
 function renderClients(){
-    const crm_clients = JSON.parse(localStorage.getItem("crm_clients")).slice(0,4);
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).slice(0,4);
     const cards = document.querySelectorAll('.recent-clients div');
     
     for(i=0; i<4;i++){
