@@ -1,0 +1,40 @@
+@import url(styles.css);
+
+/* h3 {
+    color: black
+} */
+
+.name-card, .change-password, .edit-details, .buttons  {
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+}
+
+.name-card {
+
+    display: grid;
+    grid-template-columns: 20% auto;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        gap: .35rem;
+    } 
+    & > img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: var(--radius);
+        margin:auto;
+    }
+}
+
+input, option, select {
+    background-color: oklch(82.4% 0.06528 18.491);
+    border: 1px solid var(--border);
+    padding: 1rem;
+}
+
+input[type=submit]:hover{
+    cursor: pointer;
+    background-color: hsl(330 70% 30%);
+}

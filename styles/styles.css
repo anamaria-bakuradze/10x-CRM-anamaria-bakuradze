@@ -1,5 +1,6 @@
 @import url("./nav-style.css");
 @import url("clients.css");
+@import url("profile.css");
 
 :root {
     --background: oklch(0.9692 0.0192 343.9344);

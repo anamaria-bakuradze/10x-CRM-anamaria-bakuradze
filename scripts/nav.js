@@ -43,13 +43,19 @@ localStorage.setItem('crm_theme', 'light-theme');
 
 function toggleTheme(e) {
     localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
-    console.log("Theme changed to: " + localStorage.getItem('crm_theme'));
-    document.body.setAttribute('class', localStorage.getItem('crm_theme'));
+    switch (localStorage.getItem('crm_theme')){
+        case 'dark-theme':
+            document.body.classList.add('dark-theme');
+            break;
+        case 'light-theme':
+            document.body.classList.remove('dark-theme');
+            break;
+    }
     e.target.closest('button').querySelector('img').setAttribute('src', localStorage.getItem('crm_theme') == 'dark-theme' ? '../components/toggle-on.png' : '../components/toggle-off.png');
 }
 
 function logOut() {
     console.log("Logging out...");
     localStorage.removeItem("crm_session");
-    window.location.replace("../auth/index.html");
+    window.location.replace("../index.html");
 }

@@ -11,22 +11,22 @@
             <h1>PROFILE</h1>
         </header> 
 
-        <div>
-            <img>
+        <div class="name-card">
+            <img src="../components/logo2.png" alt="profile image">
             <div>
-                <h3></h3>
+                <h3 id="name"></h3>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <div>
+        <div class="edit-details">
             <form>
                 <input type="text" name="fullname" placeholder="">
                 <input type="text" name="company" placeholder="">
                 <input type="submit" value="Update">
             </form>
         </div>
-        <div>
+        <div class="change-password">
             <form>
                 <input type="password" name="oldPassword" placeholder="Old Password">
                 <input type="password" name="newPassword" placeholder="New Password">
@@ -34,8 +34,8 @@
                 <input type="submit" value="Change Password">
             </form>
         </div>
-        <div>
-            <button id="logout">Logout</button>
+        <div class="buttons">
+            <button id="logout" onclick="logOut()">Logout</button>
             <button id="deleteAccount">Delete Account</button>
         </div>
 
