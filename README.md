@@ -5,4 +5,4 @@ The product is meant to simplify and make the sales managers' work process enjoy
 CRM offers an interface for managing clients, keeping individuals recognisable and sale deals descriptive and visually customizable, compared to old-school Excel.
 
 Project preview on netlify:
-<a href="legendary-haupia-70875f.netlify.app/index.html">Here</a>
+<a href="[legendary-haupia-70875f.netlify.app/index.html](https://legendary-haupia-70875f.netlify.app/index.html)">Here</a>
