@@ -15,6 +15,22 @@ nav {
     translate: 0;
     overflow-x: clip;
     font-family: var(--font-mono);
+    &>div:first-child{
+        & >div> button {
+            position: fixed;
+            right:2rem;
+            top: 2.5rem;
+            border-radius: 50%;
+            border: none;
+
+            & > img{
+                height: 2rem;
+                width: 2rem;
+                border-radius: 50%;
+            }
+            
+        }
+    }
 }
 nav.inactive {
     transition: translate 1s;
@@ -54,27 +70,32 @@ nav.inactive {
     top:0;
 }
 #buttons {
-    display: flex;
-    justify-content: space-evenly;
+    /* display: flex;
+    justify-content: space-evenly; */
+    color: var(--background);
 }
 #buttons button{
-    & > img {    
-        height: 2rem;
-        width: 2rem;
-    }
-    height: 3rem;
-    border-radius: 50%;
+    height: 100%;
+    /* border-radius: 50%; */
+    width: 100%;
     overflow: hidden;
-    display: block;
-    background-color: var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    /* background-color: var(--shadow-color); */
     border: none;
+    & > img {
+        width: 2rem;
+        height: 2rem;
+    }
+
 }
-#buttons button:hover{
+#buttons button:hover, #toggle-theme:hover{
     cursor: pointer;
-    background-color: black;
-}
-#buttons button:first-child:hover{
-    background-color: var(--accent);
+    background-color: var(--accents);
+    & * {
+        background-color:  var(--accents);
+    }
 }
 
 #icon {

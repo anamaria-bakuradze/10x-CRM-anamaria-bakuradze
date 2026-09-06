@@ -8,7 +8,7 @@ const nav = document.createElement('nav');
 nav.innerHTML = 
 `
     <div>
-        <div id="icon-holder"></div>
+        <div><button id="toggle-theme"><img src="../components/toggle-off.png" alt="toggle theme"></button></div>
     </div>
     <div id="links">
         <a href="dashboard.html">Dashboard</a>
@@ -17,9 +17,11 @@ nav.innerHTML =
     </div>
     <div><span></span></div>
     <div><span></span></div>
-    <div id="buttons"><button><img src="../components/logout.png" alt="log out"></button><span></span><button><img src="../components/toggle-off.png" alt="toggle theme"></button></div>
+    <div id="buttons"><button><img src="../components/logout.png" alt="log out"><span>Log out</span></button></div>
 `;
 nav.setAttribute('class', 'inactive');
+nav.setAttribute('class', 'pop');
+
 
 const openNav = document.createElement('div');
 openNav.setAttribute('id', 'open-menu');
@@ -35,7 +37,7 @@ document.getElementById('icon').addEventListener('click', ()=>{window.location.r
 
 const buttons = document.querySelectorAll('nav>div>button');
 buttons[0].addEventListener('click', logOut);
-buttons[1].addEventListener('click', (e) => toggleTheme(e));
+document.getElementById('toggle-theme').addEventListener('click', (e) => toggleTheme(e));
 
 // ------------------------------------------------------
 

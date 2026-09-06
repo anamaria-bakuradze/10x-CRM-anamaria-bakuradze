@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="components/style.css" />
+        <link rel="stylesheet" href="styles/styles.css" />
         <script src="auth.js"></script>
         <script src="scripts/guard.js"></script>
     </head>
@@ -23,9 +23,12 @@
                 <input type="password" name="confirmPassword" id="confirmPassword" /><br>
                 
                 <button id="submit" type="submit">Create Account</button><br>
-                <label>Already have an account? <a href="index.html">Log In</a></label>
+                
             </form>
+
+            <div id="login">Already have an account? <a href="index.html">Log In</a></div>
         </div>
+
 
         <p id="toast" style="display: none;">Account created successfully! Please log in.</p>
     </body>
@@ -33,6 +36,7 @@
     <script>
         const form = document.querySelector("form");
         // const success = false;
+        console.log(window.location.href != window.location.origin + "/signup.html");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             const success = signUp(e);

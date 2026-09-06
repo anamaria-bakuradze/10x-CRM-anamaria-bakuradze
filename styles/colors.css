@@ -1,0 +1,25 @@
+:root {
+    --background: #eaf2ef;
+    --cards: #912f56;
+    --border: #521945;
+    --accents: #361f27;
+    --text: #0d090a;
+}
+
+.pop {
+    background-color: var(--cards);
+    color: var(--background);
+    & * {
+        background-color: var(--cards);
+        color: var(--background);
+    }
+}
+
+.emphasis {
+    background-color: var(--accents);
+    color: var(--background);
+    & * {
+        background-color: var(--accents);
+        color: var(--background);
+    }
+}

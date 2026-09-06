@@ -1,74 +1,26 @@
 @import url("./nav-style.css");
 @import url("clients.css");
 @import url("profile.css");
+@import url("colors.css");
+@import url('index.css');
 
 :root {
-    --background: oklch(0.9692 0.0192 343.9344);
-    --foreground: oklch(0.4440 0.1770 26.8990);
-    --card: oklch(0.9837 0.0107 339.3288);
-    --card-foreground: oklch(0.3960 0.1410 25.7230);
-    --popover: oklch(0.9837 0.0107 339.3288);
-    --popover-foreground: oklch(0.3960 0.1410 25.7230);
-    --primary: oklch(0.6370 0.2370 25.3310);
-    --primary-foreground: oklch(1.0000 0 0);
-    --secondary: oklch(0.8850 0.0620 18.3340);
-    --secondary-foreground: oklch(0.5050 0.2130 27.5180);
-    --muted: oklch(0.9360 0.0320 17.7170);
-    --muted-foreground: oklch(0.5770 0.2450 27.3250);
-    --accent: oklch(0.8850 0.0620 18.3340);
-    --accent-foreground: oklch(0.4440 0.1770 26.8990);
-    --destructive: oklch(0.6370 0.2370 25.3310);
-    --destructive-foreground: oklch(1.0000 0 0);
-    --border: oklch(0.8080 0.1140 19.5710);
-    --input: oklch(88.341% 0.06161 18.298);
-    --ring: oklch(0.6370 0.2370 25.3310);
-    --chart-1: oklch(0.6002 0.2414 0.1348);
-    --chart-2: oklch(0.5979 0.1750 345.0378);
-    --chart-3: oklch(0.6009 0.1243 311.7958);
-    --chart-4: oklch(0.5849 0.1178 283.2937);
-    --chart-5: oklch(0.6479 0.1871 267.9684);
-    --sidebar: oklch(0.9692 0.0192 343.9344);
-    --sidebar-foreground: oklch(0.4440 0.1770 26.8990);
-    --sidebar-primary: oklch(0.6370 0.2370 25.3310);
-    --sidebar-primary-foreground: oklch(1.0000 0 0);
-    --sidebar-accent: oklch(0.8850 0.0620 18.3340);
-    --sidebar-accent-foreground: oklch(0.4440 0.1770 26.8990);
-    --sidebar-border: oklch(0.8080 0.1140 19.5710);
-    --sidebar-ring: oklch(0.6370 0.2370 25.3310);
-    --font-sans: Poppins, sans-serif;
-    --font-serif: Playfair Display, serif;
-    --font-mono: Space Mono, monospace;
     --radius: 0.5rem;
-    --shadow-x: 0px;
-    --shadow-y: 3px;
-    --shadow-blur: 0px;
-    --shadow-spread: 0px;
-    --shadow-opacity: 0.18;
-    --shadow-color: hsla(330 70% 30%);
-    --shadow-2xs: 0px 3px 0px 0px hsl(330 70% 30% / 0.09);
-    --shadow-xs: 0px 3px 0px 0px hsl(330 70% 30% / 0.09);
-    --shadow-sm: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 1px 2px -1px hsl(330 70% 30% / 0.18);
-    --shadow: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 1px 2px -1px hsl(330 70% 30% / 0.18);
-    --shadow-md: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 2px 4px -1px hsl(330 70% 30% / 0.18);
-    --shadow-lg: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 4px 6px -1px hsl(330 70% 30% / 0.18);
-    --shadow-xl: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 8px 10px -1px hsl(330 70% 30% / 0.18);
-    --shadow-2xl: 0px 3px 0px 0px hsl(330 70% 30% / 0.45);
-    --tracking-normal: 0em;
-    --spacing: 0.25rem;
+    --font-sans: Poppins, sans-serif;
 }
 html {
     scroll-behavior: smooth;
 }
 body {
-    padding: 0 15%;
-    background-color: var(--secondary);
+    padding: 0 22%;
+    background-color: var(--background);
     font-family: var(--font-sans);
-    color: var(--primary);
+    color: var(--text);
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    /* scroll-behavior: smooth; */
 }
+
 header{
     /* margin-top: 3rem; */
     display: flex;
@@ -86,10 +38,10 @@ header{
     position: fixed;
     top: 0.5rem;
     right: 0.5rem;
-    background-color: var(--chart-3);
-    color: var(--background);
+    /* background-color: var(--chart-3); */
+    /* color: var(--background); */
     padding: 1.5rem;
-    border: 4px solid var(--sidebar-primary-foreground);
+    border: 4px solid var(--border);
     border-radius: var(--radius);
     box-shadow: 0 0 5rem var(--shadow);
 
@@ -105,11 +57,7 @@ header{
 .dashboard-cards {
     display: flex;
     justify-content: space-evenly;
-    background-color: var(--background);
-    /* gap:1%; */
     flex-wrap: wrap;
-    /* margin: 3rem; */
-    /* margin-bottom: 0; */
     padding: 0.5rem;
     border: 3px solid var(--border);
     border-radius: var(--radius);
@@ -119,44 +67,44 @@ header{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width:16rem;
+    min-width:12rem;
     /* font-size: 160%; */
     text-align: center;
     /* background-color: var(--background); */
-    border: 1px solid var(--accent);
+    border: 1px solid var(--border);
 }
 .pipelines, .recent-clients {
     border-radius: var(--radius);
-    /* margin-left: 0.8%; */
-    padding: 1.7%;
-    /* width:44.5%; */
+    /* padding: 1.7%; */
     min-width: 44%;
     border: 3px solid var(--border);
     display: flex;
-    justify-content: space-between;
-    gap:1.3%;
+    justify-content: space-evenly;
+    align-items: center;
+    /* gap:1.3%; */
     flex-wrap: wrap;
-    background-color: var(--background);
+    /* background-color: var(--background); */
 }
 .pipelines div, .recent-clients>div {
     /* width: 49%; */
-    min-width: 49%;
-    min-height: 49%;
+    min-width: 11rem;
+    min-height: 11rem;
+    max-height: 13rem;
     display: flex;
     /* padding-top: 2rem; */
     flex-direction: column;
     justify-content: center;
-    background-color: var(--background);
-    border: 1px solid var(--accents);
+    /* background-color: var(--background); */
+    border: 1px solid var(--border);
     text-align: center;
     border-radius: var(--radius);
-}
-.pipelines div{
-    color: var(--background);
 }
 .pipelines p {
     display: block;
     /* font-size: 300%; */
+}
+.pipelines>div>*{
+    background-color: inherit;
 }
 
 .recent-clients{
@@ -187,8 +135,8 @@ header{
     padding: 1rem;   
 
     opacity: 50%;
-    background-color: var(--accent);
-    color: var(--primary);
+    /* background-color: var(--accent); */
+    /* color: var(--primary); */
 
     text-align: center;
     text-decoration: none;
@@ -208,18 +156,15 @@ header{
     transition: transform 1s;
     transform: opacity;
 }
-.recent-clients>div>div{
-    /* width: 50%; */
-}
 .recent-clients{
     .dealValue{
         background-color: hsl(330 70% 30%);
         color: var(--secondary);
-        margin-bottom: 1rem;
+        /* margin-bottom: 1rem; */
     }
     &>div{
         border: 1px solid var(--border);
-        gap:0.75rem;
+        /* gap:0.75rem; */
         display: grid;
         grid-template-rows: auto;
         & >span {width: 10rem;}

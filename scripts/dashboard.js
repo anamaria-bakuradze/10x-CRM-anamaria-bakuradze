@@ -24,7 +24,8 @@ pipelinesContainer.forEach((each)=>{each.style.height = `${each.clientWidth*50/1
 // the code above is for visuals only
 
 
-function renderStatistics(){
+async function renderStatistics(){
+    await fetchClients();
     const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${un? un : ""}`));
     console.log(localStorage.getItem(`crm_clients-${un? un : ""}`));
 
@@ -64,7 +65,8 @@ function renderStatistics(){
 
     // document.write(crm_clients.filter(user => new Date(user["createdAt"]) >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length);
 }
-function renderPipeline(){
+async function renderPipeline(){
+    await fetchClients();
     const cards = document.querySelectorAll('.pipelines div p');
     const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${un? userNumber : ""}`));
     
@@ -81,7 +83,8 @@ function renderPipeline(){
     cards[3].parentElement.style.backgroundColor='#0B2447'; //hsl(253.33,17.48%,40.39%)
 
 }
-function renderClients(){
+async function renderClients(){
+    await fetchClients();
     const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).slice(0,4);
     const cards = document.querySelectorAll('.recent-clients div');
     
