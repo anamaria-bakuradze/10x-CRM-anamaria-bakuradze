@@ -4,6 +4,34 @@
     --border: #521945;
     --accents: #361f27;
     --text: #0d090a;
+
+}
+
+.dark-theme{
+    background-color: var(--text);
+    color: var(--background);
+    & *{
+        border-color: #eaf2ef8b;;
+    }
+    header {
+        background-color: var(--accents);
+    }
+
+    .pop {
+        background-color: var(--accents);
+        & * {
+            background-color: var(--accents);
+        }
+    }
+
+    .pipelines>div>*{
+        background-color: inherit;
+    }
+
+    .name-card, .change-password, .edit-details, .buttons  {
+        border: 1px solid #eaf2ef8b;
+        background-color: var(--accents);
+    }
 }
 
 .pop {

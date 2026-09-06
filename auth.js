@@ -1,17 +1,15 @@
+console.log(window.location.href, window.location.origin);
 
-if (localStorage.getItem("crm_session")&& ( window.location.href == window.location.origin + "/index.html" || window.location.href == window.location.origin + "/signup.html")) {
-  setTimeout((e) => {
-    console.log("HERE!");
-    window.location.replace("../index.html")
-  }, 1000);
-  
+if (localStorage.getItem("crm_session") && (window.location.href === (window.location.origin + "/index.html") || (window.location.href === (window.location.origin + "/signup.html")))) {
+  // setTimeout((e) => {
+  //   window.location.replace("../index.html");
+  // }, 1000);
+
   window.location.replace("../general/dashboard.html");
-  console.log("?");
 
-} else if (window.location.href != window.location.origin + "/index.html" && window.location.href != window.location.origin + "/signup.html") {
+} else if ((window.location.href !== (window.location.origin + "/index.html")) && (window.location.href !== (window.location.origin + "/signup.html"))) {
   setTimeout((e) => {
-    console.log("HERE!");
-    window.location.replace("../index.html")
+    window.location.replace("../index.html");
   }, 1000);
 }
 
@@ -34,11 +32,13 @@ function signUp(event) {
     return false;
   }
 
-  try {if (crm_users.some(user => user.email === email)) {
-    alert("An account with this email already exists");
-    document.forms["signUp"]["email"].focus();
-    return false;
-  }} catch (error) {
+  try {
+    if (crm_users.some(user => user.email === email)) {
+      alert("An account with this email already exists");
+      document.forms["signUp"]["email"].focus();
+      return false;
+    }
+  } catch (error) {
 
   }
 
@@ -81,17 +81,17 @@ function logIn(event) {
   const email = document.forms["login"]["email"].value.toLowerCase().trim();
   const password = document.forms["login"]["password"].value.trim();
   const crm_users = JSON.parse(localStorage.getItem("crm_users")) || [];
-  
+
   const email_alert = document.getElementById("email-alert");
 
-    document.forms["login"]["email"].style.borderColor = "";
-    email_alert.classList.remove("input-error");
-    email_alert.classList.add("valid");
-    email_alert.innerHTML = "";
+  document.forms["login"]["email"].style.borderColor = "";
+  email_alert.classList.remove("input-error");
+  email_alert.classList.add("valid");
+  email_alert.innerHTML = "";
 
   if (email == "") {
     document.forms["login"]["email"].style.borderColor = "red";
-    email_alert.classList.remove("valid");s
+    email_alert.classList.remove("valid"); s
     email_alert.classList.add("input-error");
     email_alert.innerHTML = "Email is required";
     document.forms["login"]["email"].focus();
@@ -113,10 +113,10 @@ function logIn(event) {
     return false;
   }
 
-  const crm_session = { 
-      userId: JSON.parse(localStorage.getItem("crm_users")).find(user => user.email === email).id, 
-      email: JSON.parse(localStorage.getItem("crm_users")).find(user => user.email === email).email,
-      loginAt: new Date().toISOString(),
+  const crm_session = {
+    userId: JSON.parse(localStorage.getItem("crm_users")).find(user => user.email === email).id,
+    email: JSON.parse(localStorage.getItem("crm_users")).find(user => user.email === email).email,
+    loginAt: new Date().toISOString(),
   };
 
   localStorage.setItem("crm_session", JSON.stringify(crm_session));
