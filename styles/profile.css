@@ -11,7 +11,7 @@
     border: 2px solid var(--border);
     border-radius: var(--radius);
     padding: 2rem;
-    background-color: var(--cards);
+    background-color: rgba(207, 113, 151, 50%);
     display: flex;
     justify-content: space-between;
 }
@@ -41,7 +41,7 @@ select {
     /* background-color: oklch(82.4% 0.06528 18.491); */
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 
 input[type=submit]:hover {

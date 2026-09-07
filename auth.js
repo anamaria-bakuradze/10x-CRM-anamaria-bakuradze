@@ -71,7 +71,7 @@ function signUp(event) {
   });
 
   localStorage.setItem("crm_users", JSON.stringify(crm_users));
-
+  seedClients(crm_users[-1].id);
   return true;
 }
 
@@ -121,5 +121,9 @@ function logIn(event) {
 
   localStorage.setItem("crm_session", JSON.stringify(crm_session));
   return true;
+
+}
+
+function seedClients() {
 
 }

@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="../styles/styles.css" />
-        <script src="../scripts/render.js" defer></script>
-        <script src="../scripts/dashboard.js" defer></script>
-        <script src="../scripts/nav.js" defer></script>
-        <script src="../scripts/guard.js" defer></script>
 
-    </head>
-    <body>
-        <header>
-            <h1>DASHBOARD</h1>
-            <h3>Welcome back, <span id="name"></span>! <span id="time"></span></h3>
-        </header>
+<head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <script src="../scripts/render.js" defer></script>
+    <script src="../scripts/dashboard.js" defer></script>
+    <script src="../scripts/nav.js" defer></script>
+    <script src="../scripts/guard.js" defer></script>
 
-        <div class = "dashboard-cards pop">
-            <div class="cards">
-                <h4>Total Clients</h4>
+</head>
+
+<body>
+    <header>
+        <h1>DASHBOARD</h1>
+        <h3>Welcome back, <span id="name"></span>! <span id="time"></span></h3>
+    </header>
+
+    <div class="dashboard-cards">
+        <div class="cards">
+            <h4>Total Clients</h4>
+            <p></p>
+        </div>
+        <div class="cards">
+            <h4>Active Deals</h4>
+            <p></p>
+        </div>
+        <div class="cards">
+            <h4>Won Revenue</h4>
+            <p></p>
+        </div>
+        <div class="cards">
+            <h4>New This Week</h4>
+            <p></p>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; gap: 1rem">
+
+        <div class="pipelines">
+            <div class="lead">
+                <h3>Lead</h3>
                 <p></p>
             </div>
-            <div class="cards">
-                <h4>Active Deals</h4>
+            <div class="contacted">
+                <h3>Contacted</h3>
                 <p></p>
             </div>
-            <div class="cards">
-                <h4>Won Revenue</h4>
+            <div class="lost">
+                <h3>Lost</h3>
                 <p></p>
             </div>
-            <div class="cards">
-                <h4>New This Week</h4>
+            <div class="won">
+                <h3>Won</h3>
                 <p></p>
             </div>
         </div>
-            
-        <div style="display: flex; justify-content: space-between; gap: 2rem">
 
-            <div class = "pipelines pop">
-                <div class="lead">
-                    <h3>Lead</h3>
-                    <p></p>
-                </div>
-                <div class="contacted">
-                    <h3>Contacted</h3>
-                    <p></p>
-                </div>
-                <div class="lost">
-                    <h3>Lost</h3>
-                    <p></p>
-                </div>
-                <div class="won">
-                    <h3>Won</h3>
-                    <p></p>
-                </div>
+        <div class="recent-clients pop">
+            <!-- aq array gamochndeba clientebis profilebit -->
+            <a href="clients.html"><span>See all clients</span></a>
+            <div>
+
             </div>
-
-            <div class="recent-clients pop">
-                <!-- aq array gamochndeba clientebis profilebit -->
-                <a href="clients.html" class="emphasis"><span>See all clients</span></a>
-                <div>
-
-                </div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    </body>
-</html>    
+
+    </div>
+</body>
+
+</html>

@@ -1,3 +1,9 @@
+class App {
+    static page = 'Dashboard';
+    // constructor(){
+
+    // }
+}
 
 
 const icon = document.createElement('img');
@@ -5,11 +11,16 @@ icon.setAttribute('src', '../components/logo2.png');
 icon.setAttribute('id', 'icon');
 
 const nav = document.createElement('nav');
-nav.innerHTML = 
-`
+nav.innerHTML =
+    `
+    
+    
     <div>
         <div><button id="toggle-theme"><img src="../components/toggle-off.png" alt="toggle theme"></button></div>
     </div>
+
+    <span id="icon-holder"></span>
+
     <div id="links">
         <a href="dashboard.html">Dashboard</a>
         <a href="clients.html">Clients</a>
@@ -21,6 +32,7 @@ nav.innerHTML =
 `;
 nav.setAttribute('class', 'inactive');
 nav.setAttribute('class', 'pop');
+nav.setAttribute('id', 'nav');
 
 
 const openNav = document.createElement('div');
@@ -31,9 +43,26 @@ document.body.appendChild(openNav);
 document.body.appendChild(nav);
 document.body.appendChild(icon);
 
-document.getElementById('open-menu').addEventListener('mouseenter', ()=>{ document.querySelector('nav').classList.remove('inactive');});
-document.querySelector('nav').addEventListener('mouseleave', ()=>{ document.querySelector('nav').classList.add('inactive');});
-document.getElementById('icon').addEventListener('click', ()=>{window.location.replace('dashboard.html')});
+document.getElementById('open-menu').addEventListener('mouseenter', () => { document.querySelector('nav').classList.remove('inactive'); });
+document.querySelector('nav').addEventListener('mouseleave', () => { document.querySelector('nav').classList.add('inactive'); });
+document.getElementById('icon').addEventListener('click', () => { window.location.replace('dashboard.html') });
+
+document.querySelectorAll('nav div a').forEach((e) => {
+    e.addEventListener('click', () => {
+        App.page = e.textContent;
+    });
+    console.log(e.textContent);
+    console.log(App.page);
+
+});
+
+document.querySelectorAll('nav div a').forEach((e) => {
+    console.log(e.textContent);
+    e.classList.remove('emphasis');
+    if (e.textContent === App.page) { e.classList.add('emphasis') }
+});
+
+console.log(App.page);
 
 const buttons = document.querySelectorAll('nav>div>button');
 buttons[0].addEventListener('click', logOut);
@@ -45,7 +74,7 @@ localStorage.setItem('crm_theme', 'light-theme');
 
 function toggleTheme(e) {
     localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
-    switch (localStorage.getItem('crm_theme')){
+    switch (localStorage.getItem('crm_theme')) {
         case 'dark-theme':
             document.body.classList.add('dark-theme');
             break;

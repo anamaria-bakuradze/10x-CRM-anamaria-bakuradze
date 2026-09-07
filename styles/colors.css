@@ -1,34 +1,41 @@
 :root {
     --background: #eaf2ef;
-    --cards: #912f56;
+    --cards: #cf7197;
     --border: #521945;
     --accents: #361f27;
     --text: #0d090a;
 
 }
 
-.dark-theme{
+.dark-theme {
     background-color: var(--text);
     color: var(--background);
-    & *{
-        border-color: #eaf2ef8b;;
+
+    & * {
+        border-color: #eaf2ef8b;
+        ;
     }
+
     header {
         background-color: var(--accents);
     }
 
     .pop {
         background-color: var(--accents);
+
         & * {
             background-color: var(--accents);
         }
     }
 
-    .pipelines>div>*{
+    .pipelines>div>* {
         background-color: inherit;
     }
 
-    .name-card, .change-password, .edit-details, .buttons  {
+    .name-card,
+    .change-password,
+    .edit-details,
+    .buttons {
         border: 1px solid #eaf2ef8b;
         background-color: var(--accents);
     }
@@ -37,7 +44,15 @@
 .pop {
     background-color: var(--cards);
     color: var(--background);
+
     & * {
+        background-color: var(--background);
+        color: var(--text);
+    }
+}
+
+#nav {
+    & *:not(#icon-holder, #toggle-theme>*) {
         background-color: var(--cards);
         color: var(--background);
     }
@@ -46,6 +61,7 @@
 .emphasis {
     background-color: var(--accents);
     color: var(--background);
+
     & * {
         background-color: var(--accents);
         color: var(--background);
