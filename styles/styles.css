@@ -3,10 +3,13 @@
 @import url("profile.css");
 @import url("colors.css");
 @import url('index.css');
+@import url(theme-toggle.css);
+
 
 :root {
     --radius: 0.5rem;
     --font-sans: Poppins, sans-serif;
+
 }
 
 html {
@@ -15,17 +18,28 @@ html {
 
 body {
     padding: 0;
-    padding-left: 230px;
-    background-color: var(--background);
+    margin: 0;
+    background-image: var(--bg-gradient);
+    background-size: 100%;
+    background-position: top;
     font-family: var(--font-sans);
+}
+
+#body {
+    padding-left: 230px;
+    padding-right: 10px;
+    position: relative;
     color: var(--text);
     display: flex;
     flex-direction: column;
+    height: 100%;
     gap: 1rem;
+    overflow: hidden;
 }
 
 header {
     /* margin-top: 3rem; */
+    grid-area: b;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -33,7 +47,9 @@ header {
     padding: 3rem;
     padding-bottom: 0;
     border: 2px solid var(--border);
-    /* border-top: 0; */
+
+    border-top: 0;
+    border-right: 0;
     background-color: var(--cards);
 
     &>h3 {
@@ -42,12 +58,19 @@ header {
 
 }
 
-#toast {
-    z-index: 3;
-    display: block;
+#toast-container {
     position: fixed;
     top: 0.5rem;
     right: 0.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+}
+
+#toast {
+    z-index: 3;
+    display: block;
+    position: relative;
     /* background-color: var(--chart-3); */
     /* color: var(--background); */
     padding: 1.5rem;
@@ -66,15 +89,145 @@ header {
     }
 }
 
+
+div:has(.ed-toast) {
+    /* position: absolute; */
+    top: 2rem;
+    right: 2rem;
+}
+
+.ed-toast {
+    --ink: #1a1614;
+    --muted: #6b645d;
+    --hairline: #e5dfd6;
+    --hairline-strong: #d6cfc3;
+    --surface: #ffffff;
+    --sunken: #efe9e0;
+    --crimson: #683553;
+    --ease: cubic-bezier(0.3, 0.7, 0.4, 1);
+
+
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 360px;
+    padding: 7px 7px 7px 9px;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--ink);
+    font-family:
+        "Inter Tight",
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        sans-serif;
+    overflow: hidden;
+    animation: ed-toast-in 250ms var(--ease) both;
+}
+
+@keyframes ed-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ed-toast__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--crimson);
+}
+
+.ed-toast__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--crimson);
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.ed-toast__body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.ed-toast__title {
+    margin: 0 0 2px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+}
+
+.ed-toast__copy {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+    line-height: 1.4;
+}
+
+.ed-toast__dismiss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition:
+        background-color 160ms var(--ease),
+        border-color 160ms var(--ease),
+        color 160ms var(--ease);
+    flex: 0 0 auto;
+}
+
+.ed-toast__dismiss svg {
+    width: 14px;
+    height: 14px;
+}
+
+.ed-toast__dismiss:hover {
+    background: var(--sunken);
+    border-color: var(--hairline-strong);
+    color: var(--ink);
+}
+
+.ed-toast__dismiss:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+}
+
+
 /* -----------------------------------------------------------------------------------------------------------*/
 
 .dashboard-cards {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    grid-area: c;
+    display: grid;
+    /* justify-content: space-evenly; */
+    /* flex-wrap: wrap; */
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 0.5rem;
-    border: 3px solid var(--border);
+    gap: 1rem;
+    /* border: 1px solid var(--border); */
     border-radius: var(--radius);
+    /* box-shadow: inset 0 5px 25px rgb(70, 70, 70); */
+    box-shadow: inset 0 5px 25px rgb(139, 139, 139);
+
 }
 
 .dashboard-cards div {
@@ -83,11 +236,13 @@ header {
     justify-content: center;
     flex-direction: column;
     min-width: 12rem;
+    /* width: fit-content; */
     /* font-size: 160%; */
     text-align: center;
     /* background-color: var(--background); */
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    /* box-shadow: inset 0 0 20px rgb(208, 196, 196); */
 }
 
 .pipelines,
@@ -97,7 +252,7 @@ header {
     /* padding: 1.7%; */
     padding: 1rem;
     width: 50%;
-    border: 3px solid var(--border);
+    /* border: 1px solid var(--border); */
     /* display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -110,6 +265,25 @@ header {
     /* justify-content: stretch; */
 
     background-color: rgba(207, 113, 151, 50%);
+    /* box-shadow: inset 0 5px 25px rgb(70, 70, 70); */
+    box-shadow: inset 0 5px 25px rgb(139, 139, 139);
+
+}
+
+div:not(#body):has(.pipelines) {
+    grid-area: d;
+    border: none;
+    background-color: transparent;
+
+    &>* {
+        /* box-shadow: inset 0 0 15px rgb(54, 32, 32); */
+
+        &>span,
+        &>h3 {
+            display: block;
+            max-width: 5rem;
+        }
+    }
 }
 
 .pipelines div,
@@ -124,6 +298,7 @@ header {
     /* background-color: var(--background); */
     border: 1px solid var(--border);
     text-align: center;
+    align-items: center;
     border-radius: var(--radius);
     gap: .5rem;
     filter: blur(0);
@@ -174,6 +349,8 @@ header {
     height: inherit;
     border-radius: var(--radius) 0 0 var(--radius);
     border: 2px solid var(--border);
+    border-top: 0;
+    border-right: 0;
     writing-mode: vertical-rl;
     padding: 1rem;
     opacity: 50%;
@@ -203,7 +380,7 @@ header {
 .recent-clients {
     .dealValue {
         background-color: hsl(330 70% 30%);
-        color: var(--secondary);
+        color: var(--background);
         /* margin-bottom: 1rem; */
     }
 

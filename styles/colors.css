@@ -4,7 +4,8 @@
     --border: #521945;
     --accents: #361f27;
     --text: #0d090a;
-
+    --lighter: rgba(207, 113, 151, 50%);
+    --bg-gradient: linear-gradient(to bottom, var(--text), var(--background));
 }
 
 .dark-theme {
@@ -39,6 +40,8 @@
         border: 1px solid #eaf2ef8b;
         background-color: var(--accents);
     }
+
+    background-position: bottom;
 }
 
 .pop {

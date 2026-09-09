@@ -1,0 +1,81 @@
+.big-square {
+    position: absolute;
+
+    top: 52px;
+    left: 40px;
+    height: 18rem;
+    width: 18rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    /* box-shadow: 0 0 15px grey; */
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.small-square {
+    /* position: absolute; */
+    height: 15.5rem;
+    width: 15.5rem;
+    border-radius: 50%;
+    border: 1px solid grey;
+}
+
+.toggle-theme-light:hover,
+.toggle-theme-dark:hover {
+    cursor: pointer;
+    background-color: var(--accents);
+}
+
+.toggle-theme-light,
+.toggle-theme-dark {
+    position: fixed;
+    /* right: 2rem;
+    top: 2.5rem; */
+    z-index: 3;
+    right: 5px;
+    top: 50%;
+    border-radius: 50%;
+    border: none;
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+
+    &>img {
+        height: 2rem;
+        width: 2rem;
+        border-radius: 50%;
+        /* background-color: var(--background); */
+        padding: 0.25rem;
+        transform: translate(-0.25rem, -0.30rem);
+
+    }
+}
+
+.toggle-theme-dark {
+    /* right: 2rem;
+    top: 2.5rem; */
+    left: 5px;
+    top: 50%;
+    /* transform: translateY(-50%); */
+    transform: rotate(0deg) translateY(-50%);
+    transform-origin: 440% 50%;
+    transition: transform 4s ease;
+}
+
+.toggle-theme-light {
+    transform: rotate(0deg) translateY(-50%);
+    transform-origin: -360% -30%;
+    transition: transform 4s ease;
+}
+
+.rotate-light {
+    transform: rotate(180deg) translateY(50%);
+    transition: transform 4s ease;
+}
+
+.rotate-dark {
+    transform: rotate(180deg) translateY(50%);
+    transition: transform 4s ease;
+}

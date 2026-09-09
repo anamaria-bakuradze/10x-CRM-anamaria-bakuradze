@@ -9,43 +9,45 @@
 </head>
 
 <body>
-    <header>
-        <h1>CLIENTS</h1>
-        <button id="add-btn" class="emphasis">Add Client</button>
-    </header>
+    <div id="body">
+        <header>
+            <h1>CLIENTS</h1>
+            <button id="add-btn" class="emphasis">Add Client</button>
+        </header>
 
-    <div id="filter">
-        <form>
-            <!-- <label for="search">Search:</label> -->
-            <input type="text" name="search" id="search">
-            <select>
-                <option value="All">All</option>
-                <option value="Lead">Lead</option>
-                <option value="Contacted">Contacted</option>
-                <option value="Won">Won</option>
-                <option value="Lost">Lost</option>
-            </select>
-            <button type="submit">Search</button>
-        </form>
-        <div class="reset"><button onclick="reset()">Reset</button></div>
-        <div class="page"></div>
-    </div>
+        <div id="filter">
+            <form>
+                <!-- <label for="search">Search:</label> -->
+                <input type="text" name="search" id="search">
+                <select>
+                    <option value="All">All</option>
+                    <option value="Lead">Lead</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Won">Won</option>
+                    <option value="Lost">Lost</option>
+                </select>
+                <button type="submit">Search</button>
+            </form>
+            <div class="reset"><button onclick="reset()">Reset</button></div>
+            <div class="page"></div>
+        </div>
 
 
 
-    <div style="position: relative;">
-        <button id="left">
-            <span>PREVIOUS</span>
-            <span>PREVIOUS</span>
-            <span>PREVIOUS</span>
-        </button>
-        <button id="right">
-            <span>NEXT</span>
-            <span>NEXT</span>
-            <span>NEXT</span>
-            <span>NEXT</span>
-        </button>
-        <div id="clients_container"></div>
+        <div style="position: relative;">
+            <button id="left">
+                <span>PREVIOUS</span>
+                <span>PREVIOUS</span>
+                <span>PREVIOUS</span>
+            </button>
+            <button id="right">
+                <span>NEXT</span>
+                <span>NEXT</span>
+                <span>NEXT</span>
+                <span>NEXT</span>
+            </button>
+            <div id="clients_container"></div>
+        </div>
     </div>
 </body>
 

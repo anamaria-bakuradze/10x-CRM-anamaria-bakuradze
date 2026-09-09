@@ -30,6 +30,21 @@ const containerBtnRigft = document.getElementById('right');
 containerBtnLeft.addEventListener('click', goPrevious);
 containerBtnRigft.addEventListener('click', goNext);
 
+const select = document.getElementsByTagName('select')[0];
+select.addEventListener('change', function () {
+    this.blur();
+});
+
+const searchPanel = document.getElementsByTagName('input')[0];
+
+searchPanel.addEventListener('keydown', (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault;
+        searchPanel.blur();
+    }
+})
+
+
 renderClients();
 // -----------------------------------------------------------
 
@@ -67,7 +82,7 @@ async function fetchClientsDummy() {
         // console.log(crm_clients);
         const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name";
         localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
-        console.log("fetched clients data from dummyjson.com");
+        // console.log("fetched clients data from dummyjson.com");
         // console.log(JSON.parse(localStorage.getItem("crm_clients")));
         return crm_clients;
     } catch (error) {
@@ -130,7 +145,6 @@ async function renderClients() {
                 <span class="edit-btn">Edit</span>
             </div>
         `;
-        console.log(m.status);
 
         const notes = rightHalf.querySelector('.notes');
         let timeout = setInterval(() => {
@@ -138,7 +152,7 @@ async function renderClients() {
         }, 100000000000000);
         let clientisOpen = false;
         notes.addEventListener('mouseenter', (e) => { timeout = expandClient(e); clientisOpen = true; });
-        notes.addEventListener('mouseleave', (e) => { console.log(e); clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
+        notes.addEventListener('mouseleave', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
 
         const editBtn = rightHalf.getElementsByClassName('edit-client')[0];
         editBtn.addEventListener('click', (e) => editClient(e));
@@ -183,7 +197,7 @@ async function renderClients() {
         email.textContent = m.email;
         email.appendChild(copyBtn);
 
-        console.log(copyBtn);
+        // console.log(copyBtn);
 
         const phone = document.createElement('span');
         phone.textContent = m.phone;
@@ -199,7 +213,7 @@ async function renderClients() {
         // cardOuter.appendChild(moreInfo);
         card.appendChild(contact);
 
-        card.addEventListener('click', (e) => { e.stopPropagation(); timeout = expandClient(e); clientisOpen = true; console.log(clientisOpen) });
+        card.addEventListener('click', (e) => { e.stopPropagation(); timeout = expandClient(e); clientisOpen = true; });
         document.body.addEventListener('click', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
         document.body.addEventListener('keydown', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
 
@@ -212,7 +226,6 @@ async function renderClients() {
 
 function changePageNumber() {
 
-    console.log('yey');
     const all = localStorage.getItem('crm_clients') ? Math.ceil(JSON.parse(localStorage.getItem('crm_clients')).length / 10) : 3;
     const page = document.getElementsByClassName('page')[0];
     page.textContent = `Page ${Client.currentPage} / ${all}`;
@@ -230,13 +243,11 @@ function changePageNumber() {
 
 function goPrevious() {
     if (Client.start >= 10) {
-        // console.log(Client.start, Client.end);
         Client.start -= 10;
         Client.end = Client.start + 10;
         Client.currentPage -= 1;
         renderClients();
         changePageNumber();
-        console.log(Client.start, Client.end);
 
     } else if (Client.start > 0) {
         Client.end -= Client.start;
@@ -256,7 +267,6 @@ function goNext() {
         Client.start += 10;
         renderClients();
         changePageNumber();
-        console.log(Client.start, Client.end);
     } else if (Client.end < actualEnd) {
         Client.currentPage += 1;
         // Client.start += actualEnd - Client.end; 
@@ -264,7 +274,6 @@ function goNext() {
         Client.end = actualEnd;
         renderClients();
         changePageNumber();
-        console.log(Client.start, Client.end, "end pages");
 
     }
 
@@ -360,20 +369,17 @@ function addClient(e) {
 
     renderClients();
 
-    toast("Client has been added successfully!");
+    toast("Client was added successfully!");
 
     document.querySelector("#add-form").parentElement.remove();
     document.getElementById('overlay').remove();
 
     e.currentTarget.removeEventListener("submit", addClient);
-    // console.log(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`));
 }
 
 function closeForm(e) {
     if (e.target == document.getElementById('cancel') || e.target == document.getElementById('overlay') || e.key == 'Escape' || e.target == document.getElementById('confirm')) {
         const formContainer = document.getElementsByClassName('floating')[0];
-        // console.log(document.getElementsByClassName('add-form').innerHTML);
-        // e.preventDefault();
         formContainer.remove();
         document.getElementById('overlay').remove();
         document.removeEventListener('keydown', closeForm);
@@ -382,9 +388,7 @@ function closeForm(e) {
 
 function addNewClient() {
     if (document.getElementsByClassName('floating').length == 0) {
-        console.log(document.getElementsByClassName('floating'));
         const formContainer = formDisplay();
-        console.log("here");
         document.body.appendChild(formContainer);
         formContainer.addEventListener("submit", addClient);
 
@@ -400,14 +404,11 @@ function addNewClient() {
 
 function editClient(e) {
     if (document.getElementsByClassName('floating').length == 0) {
-        console.log(document.getElementsByClassName('floating'));
         const clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`));
         const id = e.target.closest('.client-cards').parentElement.querySelector('.client-id').textContent.split(' ')[1];
         const client = clients.find((m) => m.id == id);
-        console.log(client);
 
         const formContainer = formDisplay(client);
-        console.log("here from editing");
         document.body.appendChild(formContainer);
         formContainer.addEventListener("submit", (e) => updateClient(e));
 
@@ -420,13 +421,10 @@ function editClient(e) {
 
 function updateClient(e) {
     e.preventDefault();
-    console.log("updating client");
     const id = e.target.parentElement.querySelector('.client-id').textContent.split(' ')[1];
-    // console.log("updating client 1st");
 
     // const id = id;
     const frm = e.currentTarget.querySelector('form');
-    console.log(frm);
     const firstName = frm["fname"].value;
     const lastName = frm["lname"].value;
     const company = frm["company"].value;
@@ -463,7 +461,6 @@ function updateClient(e) {
 
         renderClients();
 
-        console.log(document.querySelector(".floating"));
         document.querySelector(".floating").remove();
         document.getElementById('overlay').remove();
 
@@ -521,7 +518,6 @@ function deleteClient(e) {
 
 function displayClient() {
     const moreInfo = document.getElementsByClassName('more-info');
-    console.log(moreInfo);
     // moreInfo.classList.add('more-info-active');
 }
 
@@ -535,6 +531,8 @@ function collapseNotificationDiv(e) {
 
 function setNotification() {
     //gives you a window for custom remainder with day choice and time choice, and a message box for the remainder message.
+    // <input placeholder="Search" class="input" type="date" />
+
 }
 
 function popNotification() {
@@ -563,16 +561,57 @@ function copyText(e) {
 }
 
 function toast(text) {
-    const toast = document.createElement("span");
-    toast.setAttribute("id", "toast");
-    toast.textContent = text;
-    const image = document.createElement("img");
-    image.setAttribute("src", "../components/stars.png");
-    toast.appendChild(image);
-    document.body.appendChild(toast);
+
     console.log('toast!');
 
-    setTimeout(() => { toast.remove() }, 2000);
+    const toast = document.createElement('div');
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.classList.add('ed-toast');
+    toast.innerHTML =
+        `
+        <div class="ed-toast" role="status" aria-live="polite">
+            <svg
+                class="ed-toast__icon"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path d="M7.3 14.2l-7.1-5.2 1.7-2.4 4.8 3.5 6.6-8.5 2.3 1.8z"></path>
+            </svg>
+            <div class="ed-toast__body">
+                <p class="ed-toast__title">${text}</p>
+            </div>
+            <button class="ed-toast__dismiss" type="button" aria-label="Dismiss">
+                <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>`;
+
+    const container = document.getElementById('toast-container');
+    container.appendChild(toast);
+    const timeout = setTimeout(() => { collapseToast(toast, timeout) }, 2500);
+    toast.getElementsByClassName('ed-toast__dismiss')[0].addEventListener('click', () => { collapseToast(toast, timeout) });
+}
+
+function collapseToast(toast, timeout) {
+    clearTimeout(timeout);
+    toast.removeEventListener('click', collapseToast);
+    toast.remove();
 }
 
 function expandClient(e) {
@@ -582,7 +621,6 @@ function expandClient(e) {
     const notes = parent.querySelector('.notes');
     // const container = parent.parentElement;
     // const H = container.offsetHeight * 0.0625;
-    console.log(parent, 'expand');
 
     const theTimeout = setTimeout(() => {
         parent.style.height = '19.75rem';
