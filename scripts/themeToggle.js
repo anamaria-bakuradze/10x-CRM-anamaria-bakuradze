@@ -1,3 +1,4 @@
+
 const bigSquare = document.createElement('div');
 bigSquare.setAttribute('class', "big-square");
 
@@ -24,18 +25,44 @@ document.body.appendChild(bigSquare);
 toggleLightBtn.addEventListener('click', (e) => toggleTheme(e));
 toggleDarkBtn.addEventListener('click', (e) => toggleTheme(e));
 
-function toggleTheme(e) {
-    localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
-    const switchTheme = document.getElementsByClassName('big-square')[0];
 
+try {
+    localStorage.getItem('crm_theme');
+    const bd = document.getElementsByClassName('body')[0];
     switch (localStorage.getItem('crm_theme')) {
         case 'dark-theme':
             document.body.classList.add('dark-theme');
+            bd.classList.add('dark-theme');
             toggleDarkBtn.classList.add('rotate-dark');
             toggleLightBtn.classList.add('rotate-light');
             break;
         case 'light-theme':
             document.body.classList.remove('dark-theme');
+            bd.classList.remove('dark-theme');
+            toggleDarkBtn.classList.remove('rotate-dark');
+            toggleLightBtn.classList.remove('rotate-light');
+            break;
+    }
+
+} catch {
+    localStorage.setItem('crm_theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-theme' : 'light-theme');
+}
+
+function toggleTheme(e) {
+    localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
+    // const switchTheme = document.getElementsByClassName('big-square')[0];
+    const bd = document.getElementsByClassName('body')[0];
+
+    switch (localStorage.getItem('crm_theme')) {
+        case 'dark-theme':
+            document.body.classList.add('dark-theme');
+            bd.classList.add('dark-theme');
+            toggleDarkBtn.classList.add('rotate-dark');
+            toggleLightBtn.classList.add('rotate-light');
+            break;
+        case 'light-theme':
+            document.body.classList.remove('dark-theme');
+            bd.classList.remove('dark-theme');
             toggleDarkBtn.classList.remove('rotate-dark');
             toggleLightBtn.classList.remove('rotate-light');
             break;

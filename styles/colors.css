@@ -1,31 +1,61 @@
 :root {
     --background: #eaf2ef;
     --cards: #cf7197;
+    /* --light-cards: rgba(207, 113, 151, 0.502); */
+    --light-cards: rgb(240, 156, 190);
+    --red: rgb(193, 50, 50);
     --border: #521945;
     --accents: #361f27;
     --text: #0d090a;
     --lighter: rgba(207, 113, 151, 50%);
-    --bg-gradient: linear-gradient(to bottom, var(--text), var(--background));
+    --notes: #faffc9;
+
+    --shadow: rgb(139, 139, 139);
+
+    --bg-gradient: linear-gradient(to top, var(--text), var(--background));
 }
 
 .dark-theme {
-    background-color: var(--text);
-    color: var(--background);
+    /* --background: #111111; */
+    --cards: #1e1e1e;
+    --upper-cards: #27272a;
+    --shadow: 0 0 0 inherit;
+    --text: #eeeeee;
+    --border: none;
+    --accents: #ffcac2;
 
-    & * {
-        border-color: #eaf2ef8b;
-        ;
+
+    color: var(--background);
+    background-color: #111111 !important;
+
+    input,
+    select {
+        background-color: var(--cards);
+        color: var(--text);
+
+        &:hover {
+            color: black;
+        }
+    }
+
+    .dashboard-cards {
+        &>div {
+            background-color: var(--cards);
+            border: none;
+        }
     }
 
     header {
-        background-color: var(--accents);
+        background-color: var(--cards);
+        border: none;
     }
 
     .pop {
-        background-color: var(--accents);
+        background-color: var(--cards);
 
-        & * {
-            background-color: var(--accents);
+        & *:not(a) {
+            background-color: var(--upper-cards);
+            border: none;
         }
     }
 
@@ -41,7 +71,128 @@
         background-color: var(--accents);
     }
 
-    background-position: bottom;
+    .pop {
+        & * {
+            color: inherit;
+        }
+
+    }
+
+    .client-cards {
+        background-color: var(--cards);
+        border: none;
+    }
+
+    #clients_container {
+        box-shadow: inset 0 0 40px #444447 !important;
+    }
+
+    .client-cards:hover {
+        border: none !important;
+        background-color: var(--upper-cards) !important;
+    }
+
+    .bell:hover {
+        background-color: var(--cards);
+    }
+
+    .page {
+        background-color: var(--upper-cards);
+    }
+
+    .toggle-theme-light:hover,
+    .toggle-theme-dark:hover {
+        cursor: pointer;
+
+        &>img {
+            box-shadow: 0 0 5px var(--background);
+        }
+    }
+
+    #nav {
+        border: none;
+        box-shadow: 0 0 25px #444447;
+
+        #links>a:hover {
+            color: black;
+            background-color: var(--accents);
+        }
+
+        #buttons {
+            *:hover {
+                background-color: var(--accents);
+                color: black;
+
+                &>span {
+                    color: inherit;
+                }
+
+                &>*:hover {
+                    background: transparent;
+                    box-shadow: none;
+
+                }
+            }
+        }
+    }
+
+    #add-btn,
+    #filter>form>button {
+        /* color: black; */
+        background-color: var(--upper-cards);
+        /* font-size: 110%; */
+    }
+
+    #add-btn:hover,
+    #filter>form>button:hover {
+        background-color: var(--accents);
+        color: black;
+    }
+
+    .name-card,
+    .change-password,
+    .edit-details,
+    .buttons {
+        border: none;
+        background-color: var(--cards);
+
+        &>button,
+        &>form>input[type=submit] {
+            background-color: var(--upper-cards);
+        }
+
+        &>button:hover,
+        &>form>input[type=submit]:hover {
+            background-color: var(--accents);
+        }
+
+        #deleteAccount:hover {
+            border: 1px solid var(--accents) !important;
+        }
+
+    }
+
+    input:not(input[type=submit]) {
+        border: 1px solid var(--text);
+    }
+
+    input:not(input[type=submit]):hover {
+        background-color: #cbcbcb;
+    }
+
+    input:not(input[type=submit]):focus {
+        background-color: white;
+    }
+
+    #logout {
+        background-color: var(--upper-cards);
+        border: none;
+
+        &:hover {
+            background-color: var(--accents);
+            color: black;
+        }
+    }
 }
 
 .pop {
@@ -51,13 +202,6 @@
     & * {
         background-color: var(--background);
         color: var(--text);
-    }
-}
-
-#nav {
-    & *:not(#icon-holder, #toggle-theme>*) {
-        background-color: var(--cards);
-        color: var(--background);
     }
 }
 

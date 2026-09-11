@@ -100,6 +100,10 @@ async function renderClients() {
         name.textContent = crm_clients[i].name;
         const status = document.createElement('span');
         status.style.display = 'block';
+        const company = document.createElement('span');
+        company.textContent = crm_clients[i].company;
+        console.log(crm_clients[i].company);
+        company.setAttribute('class', 'company');
 
         switch (crm_clients[i].status) {
             case 'lead': status.style.backgroundColor = "#33123f"; break;
@@ -116,6 +120,7 @@ async function renderClients() {
         cards[i].appendChild(photo);
         cards[i].appendChild(name);
         cards[i].appendChild(status);
+        cards[i].appendChild(company);
         cards[i].appendChild(deal);
     }
 }

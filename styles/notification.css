@@ -1,0 +1,16 @@
+.customTimer {
+    width: inherit;
+
+    input {
+        width: 70%;
+        font-size: 80%;
+    }
+
+    input:focus {
+        transform: scale(1.3);
+    }
+
+    input:hover {
+        transform: scale(1.3);
+    }
+}

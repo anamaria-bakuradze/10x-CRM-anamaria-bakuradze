@@ -7,9 +7,9 @@
     /* right: 50%; */
     transform: translate(-50%);
     padding: 10px;
-    background-color: #ffffff;
+    background-color: var(--light-cards);
     border-radius: 8px;
-    color: #1a1a1a;
+    color: var(--text);
     align-items: center;
 }
 

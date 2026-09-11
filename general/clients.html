@@ -3,13 +3,14 @@
 
 <head>
     <link rel="stylesheet" href="../styles/styles.css" />
-    <script src="../scripts/clients.js" defer></script>
+    <script src="../scripts/clients.js" type="module" defer></script>
     <script src="../scripts/nav.js" defer></script>
     <script src="../scripts/guard.js" defer></script>
+    <script src="../scripts/themeToggle.js" defer></script>
 </head>
 
 <body>
-    <div id="body">
+    <div class="body">
         <header>
             <h1>CLIENTS</h1>
             <button id="add-btn" class="emphasis">Add Client</button>
@@ -37,13 +38,13 @@
         <div style="position: relative;">
             <button id="left">
                 <span>PREVIOUS</span>
-                <span>PREVIOUS</span>
-                <span>PREVIOUS</span>
+                <!-- <span>PREVIOUS</span>
+                <span>PREVIOUS</span> -->
             </button>
             <button id="right">
+                <!-- <span>NEXT</span>
                 <span>NEXT</span>
-                <span>NEXT</span>
-                <span>NEXT</span>
+                <span>NEXT</span> -->
                 <span>NEXT</span>
             </button>
             <div id="clients_container"></div>

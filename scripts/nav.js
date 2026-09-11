@@ -6,7 +6,7 @@ class App {
 }
 
 const screenH = window.innerHeight;
-const bodyEl = document.getElementById('body');
+const bodyEl = document.getElementsByClassName('body')[0];
 
 console.log(screenH);
 console.log(bodyEl.offsetHeight);
@@ -90,7 +90,6 @@ document.body.appendChild(toastContainer);
 
 // ------------------------------------------------------
 
-localStorage.setItem('crm_theme', 'light-theme');
 
 function logOut() {
     console.log("Logging out...");

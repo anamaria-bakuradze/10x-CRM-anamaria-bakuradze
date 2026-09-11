@@ -1,3 +1,4 @@
+import { notificationChoice, collapseNotificationDiv } from './notification.js';
 
 class Client {
     static start = 0;
@@ -119,15 +120,6 @@ async function renderClients() {
         bell.setAttribute('class', 'bell');
         bell.setAttribute('src', '../components/bell.png');
 
-        const notificationTimer = document.createElement('div');
-        notificationTimer.innerHTML =
-            `
-            <span>10 minute</span>
-            <span>30 minutes</span>
-            <span>1 hour</span>
-            <span>custom</span>
-        `
-        notificationTimer.setAttribute('class', 'notificationTimer');
         // notificationTimer.setAttribute('class', 'inactive');
         // bell.addEventListener('click', remainderPopup);
 
@@ -166,60 +158,29 @@ async function renderClients() {
             case 'Lost': rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#0B2447'; break;
             default: console.log('there was an error with status bg');
         }
-        bell.addEventListener('click', (event1) => {
-            const e = event1;
-            notificationTimer.classList.add('notificationTimer-active');
-            setTimeout(() => {
-                collapseNotificationDiv(e);
-            }, 2500);
-        });
+        bell.addEventListener('click', notificationChoice);
 
-        notificationTimer.addEventListener('mouseleave', collapseNotificationDiv);
         bellDiv.appendChild(bell);
         // bellDiv.appendChild(notificationTimer);
         card.appendChild(bellDiv);
         card.appendChild(rightHalf);
 
-        const contact = document.createElement('div');
-        contact.classList.add('contact-details');
-        const h4ForContact = document.createElement('h4');
-        h4ForContact.textContent = "Contact information:";
+        timeout = card.addEventListener('click', expandFirstHand);
+        card.addEventListener('click', () => {
+            clientisOpen = true;
+        });
 
-        const copyBtn = document.createElement('button');
-        copyBtn.addEventListener('click', (e) => copyText(e));
-        const copyImg = document.createElement('img');
-        copyImg.setAttribute('src', '../components/copy.png');
-        copyBtn.appendChild(copyImg);
-        const clone = copyBtn.cloneNode(true);
-        clone.addEventListener('click', (e) => copyText(e));
-
-        const email = document.createElement('span');
-        email.textContent = m.email;
-        email.appendChild(copyBtn);
-
-        // console.log(copyBtn);
-
-        const phone = document.createElement('span');
-        phone.textContent = m.phone;
-        phone.appendChild(clone);
-        // phone.appendChild(copyBtn);
-
-        contact.appendChild(h4ForContact);
-        contact.appendChild(email);
-        contact.appendChild(phone);
-
-        // const moreInfo = document.createElement('div');
-        // moreInfo.setAttribute('class', 'more-info');
-        // cardOuter.appendChild(moreInfo);
-        card.appendChild(contact);
-
-        card.addEventListener('click', (e) => { e.stopPropagation(); timeout = expandClient(e); clientisOpen = true; });
         document.body.addEventListener('click', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
         document.body.addEventListener('keydown', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
 
         cardOuter.appendChild(card);
         container.appendChild(cardOuter);
     });
+}
+
+function expandFirstHand(e) {
+    e.stopPropagation();
+    return expandClient(e);
 }
 
 // -----------------------------------------------------------
@@ -524,10 +485,6 @@ function displayClient() {
 displayClient();
 
 // -----------------------------------------------------------
-function collapseNotificationDiv(e) {
-    const card = e.target.closest('.client-cards');
-    card.querySelector('.notificationTimer').classList.remove('notificationTimer-active');
-}
 
 function setNotification() {
     //gives you a window for custom remainder with day choice and time choice, and a message box for the remainder message.
@@ -617,23 +574,57 @@ function collapseToast(toast, timeout) {
 function expandClient(e) {
 
     const parent = e.target.closest('.client-cards');
-    const clientDetails = parent.querySelector('.contact-details');
+    parent.removeEventListener('click', expandFirstHand);
+    console.log("removed!");
+
+
+    // const clientDetails = parent.querySelector('.contact-details');
     const notes = parent.querySelector('.notes');
-    // const container = parent.parentElement;
-    // const H = container.offsetHeight * 0.0625;
+    const id = parseInt(parent.querySelector('.client-id').textContent.slice(3,));
+    const m = JSON.parse(localStorage.getItem(`crm_clients-${userNumber}`)).find((m) => { return m.id == id ? true : false });
 
     const theTimeout = setTimeout(() => {
         parent.style.height = '19.75rem';
         parent.style.transition = "height 0.4s smooth 0s";
-        parent.style.backgroundColor = '#cf7197';
+        parent.style.backgroundColor = 'var(--cards)';
         // container.style.height = `${H + 13.75}rem`;
         // container.style.transition = "height 0.4s smooth 0s";
         notes.style.height = '13rem';
-        clientDetails.style.opacity = '100%';
+        // clientDetails.style.opacity = '100%';
         notes.style.transition = "height 0.4s 0.1s";
-        clientDetails.style.transition = "opacity 0.4s";
+        // clientDetails.style.transition = "opacity 0.4s";
     }, 300);
 
+
+    const contact = document.createElement('div');
+    contact.classList.add('contact-details');
+    const h4ForContact = document.createElement('h4');
+    h4ForContact.textContent = "Contact information:";
+
+    const copyBtn = document.createElement('button');
+    copyBtn.addEventListener('click', (e) => copyText(e));
+    const copyImg = document.createElement('img');
+    copyImg.setAttribute('src', '../components/copy.png');
+    copyBtn.appendChild(copyImg);
+    const clone = copyBtn.cloneNode(true);
+    clone.addEventListener('click', (e) => copyText(e));
+
+    const email = document.createElement('span');
+
+    email.textContent = m.email;
+    email.appendChild(copyBtn);
+
+    const phone = document.createElement('span');
+    phone.textContent = m.phone;
+    phone.appendChild(clone);
+
+    contact.appendChild(h4ForContact);
+    contact.appendChild(email);
+    contact.appendChild(phone);
+
+    parent.appendChild(contact);
+
+    contact.addEventListener('click', (e) => { e.stopPropagation() });
     return theTimeout;
 }
 
@@ -644,21 +635,17 @@ function collapseClient(e, timeout, enabled = false, caller = null) {
         if (caller) {
             if (e.target.closest('.client-cards') != caller || e.key == 'Escape' || (e.currentTarget == caller.querySelector('.notes') && e.type == 'mouseleave')) {
 
-                const parent = caller;
-                const clientDetails = parent.querySelector('.contact-details');
-                const notes = parent.querySelector('.notes');
-                // const container = parent.parentElement;
-                // const H = container.offsetHeight * 0.0625;
+                collapseNotificationDiv(e);
 
-                // container.style.height = '';
+                const parent = caller;
+                const notes = parent.querySelector('.notes');
+                const clientDetails = parent.querySelector('.contact-details');
+                clientDetails.remove();
                 parent.style.height = '';
                 parent.style.backgroundColor = '';
-
-                // container.style.transition = 'height 0.3s 1s';
                 parent.style.transition = 'height 0.3s 0.1s';
-
                 notes.style.height = '';
-                clientDetails.style.opacity = '0%';
+                parent.addEventListener('click', expandFirstHand);
                 return false;
             }
         }

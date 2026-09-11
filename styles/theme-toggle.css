@@ -22,15 +22,22 @@
     border: 1px solid grey;
 }
 
+button:has(.toggle-theme-light, .toggle-theme-dark) {}
+
 .toggle-theme-light:hover,
 .toggle-theme-dark:hover {
     cursor: pointer;
-    background-color: var(--accents);
+
+    &>img {
+        box-shadow: 0 0 5px var(--text);
+    }
 }
 
 .toggle-theme-light,
 .toggle-theme-dark {
     position: fixed;
+    background-color: inherit;
+
     /* right: 2rem;
     top: 2.5rem; */
     z-index: 3;
@@ -46,10 +53,8 @@
         height: 2rem;
         width: 2rem;
         border-radius: 50%;
-        /* background-color: var(--background); */
         padding: 0.25rem;
         transform: translate(-0.25rem, -0.30rem);
-
     }
 }
 
