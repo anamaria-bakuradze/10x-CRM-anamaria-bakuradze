@@ -18,8 +18,7 @@ console.log(localStorage.getItem("crm_session"));
 function signUp(event) {
   event.preventDefault();
   const crm_users = JSON.parse(localStorage.getItem("crm_users")) || [];
-
-
+  let result = false;
   if (document.forms["signUp"]["fullname"].value.trim().length < 3) {
     alert("Full name must be at least 3 characters");
     document.forms["signUp"]["fullname"].focus();
@@ -77,7 +76,8 @@ function signUp(event) {
 
   localStorage.setItem("crm_users", JSON.stringify(crm_users));
   // seedClients(crm_users[-1].id);
-  return true;
+  result = true;
+  return result;
 }
 
 function logIn(event) {

@@ -1,4 +1,5 @@
-const page = window.location.pathname.split('/').pop().replace(/\.html$/, '');
+const page = window.location.pathname.replace(/\/+$/, '');
+const path = page.split('/').pop().replace(/\.html$/, '');
 
 if (localStorage.getItem("crm_session")) {
   if (['index', 'signup'].includes(page)) {
