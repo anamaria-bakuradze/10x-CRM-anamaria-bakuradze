@@ -1,19 +1,30 @@
-// import { Client } from "./client.js";
-
+import { Client } from "./clients.js";
 
 const userNumber = JSON.parse(localStorage.getItem("crm_session")) ? JSON.parse(localStorage.getItem("crm_session")).userId : null;
 console.log("User number: " + userNumber);
 fetchClients();
 
-async function fetchClients(){
-  const cached = localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`);
-  if (cached) return JSON.parse(cached);
-  const data = await fetchClientsDummy();
-  localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(data));
-  return data;
+export async function fetchClients() {
+    //   const cached = localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`);
+    //   if (cached) return JSON.parse(cached);
+    const key = `crm_clients-${userNumber ?? ""}`;
+    const cached = localStorage.getItem(key);
+
+    if (cached && cached !== "undefined") {
+        try {
+            return JSON.parse(cached);
+        } catch (e) {
+            console.warn("Corrupted cache, refetching", e);
+            localStorage.removeItem(key);
+        }
+    }
+
+    const data = await fetchClientsDummy();
+    localStorage.setItem(key, JSON.stringify(data));
+    return data;
 }
 
-async function fetchClientsDummy(){
+async function fetchClientsDummy() {
     try {
         const result = await fetch("https://dummyjson.com/users?limit=30").then((response) => response.json());
         const crm_clients_pr = await result.users;
@@ -22,8 +33,8 @@ async function fetchClientsDummy(){
             crm_clients.push(new Client(m));
         })
         // console.log(crm_clients);
-        const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name"; 
-        localStorage.setItem(`crm_clients-${userNumber? userNumber : ""}`, JSON.stringify(crm_clients));
+        const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name";
+        localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
         console.log("fetched clients data from dummyjson.com");
         // console.log(JSON.parse(localStorage.getItem("crm_clients")));
         return crm_clients;
@@ -32,23 +43,23 @@ async function fetchClientsDummy(){
     }
 }
 
-async function renderClients(){
-    const crm_clients = await fetchClients().then((res)=>res.slice(Client.start,Client.end));
-    Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber? userNumber : ""}`)).length;
+async function renderClients() {
+    const crm_clients = await fetchClients().then((res) => res.slice(Client.start, Client.end));
+    Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`)).length;
 
     const container = document.getElementById("clients_container");
-    container.innerHTML=``
+    container.innerHTML = ``
 
     crm_clients.forEach((m) => {
         const cardOuter = document.createElement('div');
         cardOuter.setAttribute('class', 'card-outer');
         const card = document.createElement("div");
-        card.innerHTML = 
-        `   
+        card.innerHTML =
+            `   
             <span class="client-id">Id: ${m.id}</span>
             <div class="name-container">
                 <span>
-                    <img src="${m.avatar==null ? '../components/logo2.png' : m.avatar}">
+                    <img src="${m.avatar == null ? '../components/logo2.png' : m.avatar}">
                     <h5>${m.name}</h5>
                 </span>
             </div>
@@ -56,14 +67,14 @@ async function renderClients(){
         card.setAttribute("class", 'client-cards');
 
         const bellDiv = document.createElement('div');
-        bellDiv.style.position= 'relative';
+        bellDiv.style.position = 'relative';
         const bell = document.createElement('img');
         bell.setAttribute('class', 'bell');
         bell.setAttribute('src', '../components/bell.png');
 
         const notificationTimer = document.createElement('div');
-        notificationTimer.innerHTML = 
-        `
+        notificationTimer.innerHTML =
+            `
             <span>10 minute</span>
             <span>30 minutes</span>
             <span>1 hour</span>
@@ -73,9 +84,9 @@ async function renderClients(){
         // notificationTimer.setAttribute('class', 'inactive');
         // bell.addEventListener('click', remainderPopup);
 
-        const rightHalf= document.createElement('div');
+        const rightHalf = document.createElement('div');
         rightHalf.setAttribute('class', 'rightContent');
-        rightHalf.innerHTML =`
+        rightHalf.innerHTML = `
             <div class="first">
                 <span class="deal-value">${m.dealValue}</span>
                 <span class="status">${m.status}</span>
@@ -83,7 +94,7 @@ async function renderClients(){
             </div>
             <div class="second">
                 <span class="company">${m.company}</span>
-                <textarea class="notes">${m.notes.slice(0,20).length==0 ? "No notes.." : m.notes.slice(0,20)}</textarea>
+                <textarea class="notes">${m.notes.slice(0, 20).length == 0 ? "No notes.." : m.notes.slice(0, 20)}</textarea>
                 <span class="edit-btn">Edit</span>
             </div>
         `;
@@ -95,16 +106,16 @@ async function renderClients(){
         deleteBtn.addEventListener('click', (e) => deleteClient(e));
 
         switch (m.status) {
-            case 'Lead':     rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#33123f'; break;
-            case 'Contacted':    rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#521431'; break;
-            case 'Won':     rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#235448';break;
-            case 'Lost':     rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#0B2447';break;
+            case 'Lead': rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#33123f'; break;
+            case 'Contacted': rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#521431'; break;
+            case 'Won': rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#235448'; break;
+            case 'Lost': rightHalf.getElementsByClassName('status')[0].style.backgroundColor = '#0B2447'; break;
             default: console.log('there was an error with status bg');
         }
-        bell.addEventListener('click', (event1)=>{
+        bell.addEventListener('click', (event1) => {
             const e = event1
             notificationTimer.classList.add('notificationTimer-active');
-            setTimeout(()=>{
+            setTimeout(() => {
                 collapseNotificationDiv(e);
             }, 2500);
         });

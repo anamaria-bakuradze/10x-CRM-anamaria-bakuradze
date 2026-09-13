@@ -19,31 +19,27 @@ toggleDarkBtn.innerHTML = `<img src="../components/toggle-on.png" alt="toggle th
 bigSquare.appendChild(smallSquare);
 bigSquare.appendChild(toggleLightBtn);
 bigSquare.appendChild(toggleDarkBtn);
-
-
 document.body.appendChild(bigSquare);
 toggleLightBtn.addEventListener('click', (e) => toggleTheme(e));
 toggleDarkBtn.addEventListener('click', (e) => toggleTheme(e));
 
-
 try {
     localStorage.getItem('crm_theme');
-    const bd = document.getElementsByClassName('body')[0];
+    const bd = document.getElementsByClassName('body')[0] ? document.getElementsByClassName('body')[0] : null;
     switch (localStorage.getItem('crm_theme')) {
         case 'dark-theme':
             document.body.classList.add('dark-theme');
-            bd.classList.add('dark-theme');
+            try { bd.classList.add('dark-theme') } catch { console.log('no body element, because we\'re in authorization') };
             toggleDarkBtn.classList.add('rotate-dark');
             toggleLightBtn.classList.add('rotate-light');
             break;
         case 'light-theme':
             document.body.classList.remove('dark-theme');
-            bd.classList.remove('dark-theme');
+            try { bd.classList.remove('dark-theme') } catch { console.log('no body element, because we\'re in authorization') };
             toggleDarkBtn.classList.remove('rotate-dark');
             toggleLightBtn.classList.remove('rotate-light');
             break;
     }
-
 } catch {
     localStorage.setItem('crm_theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-theme' : 'light-theme');
 }
@@ -51,18 +47,21 @@ try {
 function toggleTheme(e) {
     localStorage.setItem('crm_theme', localStorage.getItem('crm_theme') == 'dark-theme' ? 'light-theme' : 'dark-theme');
     // const switchTheme = document.getElementsByClassName('big-square')[0];
-    const bd = document.getElementsByClassName('body')[0];
+    const bd = document.getElementsByClassName('body')[0] ? document.getElementsByClassName('body')[0] : null;
+
 
     switch (localStorage.getItem('crm_theme')) {
         case 'dark-theme':
             document.body.classList.add('dark-theme');
-            bd.classList.add('dark-theme');
+            try { bd.classList.add('dark-theme') } catch { console.log('no body element, because we\'re in authorization') };
+
             toggleDarkBtn.classList.add('rotate-dark');
             toggleLightBtn.classList.add('rotate-light');
             break;
         case 'light-theme':
             document.body.classList.remove('dark-theme');
-            bd.classList.remove('dark-theme');
+            try { bd.classList.remove('dark-theme') } catch { console.log('no body element, because we\'re in authorization') };
+
             toggleDarkBtn.classList.remove('rotate-dark');
             toggleLightBtn.classList.remove('rotate-light');
             break;

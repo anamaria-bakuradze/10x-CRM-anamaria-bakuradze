@@ -1,8 +1,11 @@
 :root {
-    --background: #eaf2ef;
-    --cards: #cf7197;
+    /* --background: #eaf2ef; */
+    --background: #f8f7fa;
+    /* --cards: #cf7197; */
+    --cards: #8a79ab;
     /* --light-cards: rgba(207, 113, 151, 0.502); */
-    --light-cards: rgb(240, 156, 190);
+    /* --light-cards: rgb(240, 156, 190); */
+    --light-cards: #dfd9ec;
     --red: rgb(193, 50, 50);
     --border: #521945;
     --accents: #361f27;
@@ -34,6 +37,12 @@
         color: var(--text);
 
         &:hover {
+            color: black;
+        }
+    }
+
+    #auth {
+        a {
             color: black;
         }
     }
@@ -81,6 +90,8 @@
     .client-cards {
         background-color: var(--cards);
         border: none;
+
+
     }
 
     #clients_container {
@@ -90,6 +101,10 @@
     .client-cards:hover {
         border: none !important;
         background-color: var(--upper-cards) !important;
+
+        & .deal-value {
+            color: black;
+        }
     }
 
     .bell:hover {
@@ -192,6 +207,10 @@
             background-color: var(--accents);
             color: black;
         }
+    }
+
+    #auth {
+        background-color: var(--upper-cards);
     }
 }
 

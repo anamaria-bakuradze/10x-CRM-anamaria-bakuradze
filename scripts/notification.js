@@ -25,9 +25,11 @@ export function notificationChoice(e) {
 export function collapseNotificationDiv(e) {
     try {
         const target = e.target;
-        console.log(e.target);
+        // console.log(e.target);
         target.querySelector('.notificationTimer').remove();
-    } catch { console.log('no timer open'); }
+    } catch {
+        // console.log('no timer open');
+    }
 }
 
 function setNotificationTimer(e) {

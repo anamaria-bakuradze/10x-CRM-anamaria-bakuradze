@@ -1,4 +1,4 @@
-
+import { fetchClients } from './render.js';
 
 function greet() {
     const crm_users = JSON.parse(localStorage.getItem("crm_users"));
@@ -69,7 +69,7 @@ async function renderStatistics() {
 async function renderPipeline() {
     await fetchClients();
     const cards = document.querySelectorAll('.pipelines div p');
-    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${un ? userNumber : ""}`));
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${un ? un : ""}`));
 
     cards[0].textContent = crm_clients.filter((each) => { return (each.status === "lead" || each.status === "Lead") }).length;
     cards[0].parentElement.style.backgroundColor = '#33123f';//hsl(305.26,26.27%,42.55%)
@@ -86,10 +86,10 @@ async function renderPipeline() {
 }
 async function renderClients() {
     await fetchClients();
-    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`)).slice(0, 4);
+    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${un ? un : ""}`)).slice(0, 4);
     const cards = document.querySelectorAll('.recent-clients div');
 
-    for (i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
         const id = document.createElement('span');
         id.setAttribute('id', 'client-id');
         id.textContent = `Id: ${crm_clients[i].id}`;

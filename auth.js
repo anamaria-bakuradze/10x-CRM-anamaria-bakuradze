@@ -17,6 +17,8 @@ console.log(localStorage.getItem("crm_session"));
 
 function signUp(event) {
   event.preventDefault();
+  const crm_users = JSON.parse(localStorage.getItem("crm_users")) || [];
+
 
   if (document.forms["signUp"]["fullname"].value.trim().length < 3) {
     alert("Full name must be at least 3 characters");
@@ -33,6 +35,8 @@ function signUp(event) {
   }
 
   try {
+    console.log(crm_users);
+
     if (crm_users.some(user => user.email === email)) {
       alert("An account with this email already exists");
       document.forms["signUp"]["email"].focus();
@@ -43,9 +47,6 @@ function signUp(event) {
   }
 
   const password = document.getElementById("password").value.trim();
-  // var letter = document.getElementById("letter");
-  // var number = document.getElementById("number");
-  // var length = document.getElementById("length");
 
   if (password.length < 8 || !/[A-Z]/i.test(password) || !/[0-9]/.test(password)) {
     alert("Password must be at least 8 characters and contain a letter and a number");
@@ -59,11 +60,15 @@ function signUp(event) {
     return false;
   }
 
-  const crm_users = JSON.parse(localStorage.getItem("crm_users")) || [];
+  const fullnameArr = document.forms["signUp"]["fullname"].value.split(' ')
+  fullnameArr.forEach((element) => {
+    element[0].toUpperCase();
+  })
+  const fullname = fullnameArr.join(' ');
 
   crm_users.push({
     id: Date.now(),
-    fullname: document.forms["signUp"]["fullname"].value,
+    fullname: fullname,
     email: document.forms["signUp"]["email"].value.toLowerCase(),
     password: document.forms["signUp"]["password"].value,
     company: document.forms["signUp"]["company"].value,
@@ -71,7 +76,7 @@ function signUp(event) {
   });
 
   localStorage.setItem("crm_users", JSON.stringify(crm_users));
-  seedClients(crm_users[-1].id);
+  // seedClients(crm_users[-1].id);
   return true;
 }
 
@@ -124,6 +129,6 @@ function logIn(event) {
 
 }
 
-function seedClients() {
+// function seedClients() {
 
-}
+// }

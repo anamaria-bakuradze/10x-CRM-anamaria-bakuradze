@@ -282,10 +282,6 @@
             grid-template-columns: 40% 30% auto;
             gap: 0.2rem;
 
-            &>span:first-child {
-                color: var(--text);
-            }
-
             &>span:nth-child(2) {
                 color: var(--background);
             }
@@ -469,7 +465,7 @@
     position: fixed;
     left: 50%;
     top: 50%;
-    width: 30rem;
+    /* width: 30rem; */
     text-align: center;
     transform: translate(-50%, -50%);
     background-color: var(--background);
@@ -499,7 +495,7 @@
     & form>input {
         border: 0.5px solid var(--border);
         border-radius: var(--radius);
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 1rem;
         box-shadow: none;
         text-decoration: none;
         width: 10rem;
@@ -538,15 +534,21 @@
         }
     }
 
+    /* 
     & form input {
         padding: 5px;
         background-color: var(--background);
-    }
+    } */
 
     & form select {
         padding: 5px;
 
     }
+}
+
+.floating>form>input::placeholder {
+    color: var(--red) !important;
+    opacity: 1;
 }
 
 .page {

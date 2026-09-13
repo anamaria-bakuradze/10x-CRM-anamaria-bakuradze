@@ -1,6 +1,9 @@
 import { notificationChoice, collapseNotificationDiv } from './notification.js';
+import { formDisplay, closeForm, addNewClient } from './clientValidation.js';
 
-class Client {
+
+
+export class Client {
     static start = 0;
     static end = 10;
     static currentPage = 1;
@@ -22,31 +25,36 @@ class Client {
     }
 }
 
-const userNumber = JSON.parse(localStorage.getItem("crm_session")) ? JSON.parse(localStorage.getItem("crm_session")).userId : null;
+export const userNumber = JSON.parse(localStorage.getItem("crm_session")) ? JSON.parse(localStorage.getItem("crm_session")).userId : null;
 
 const addBtn = document.getElementById("add-btn");
-addBtn.addEventListener("click", addNewClient);
+if (addBtn) {
+    addBtn.addEventListener("click", addNewClient);
+}
 const containerBtnLeft = document.getElementById('left');
 const containerBtnRigft = document.getElementById('right');
-containerBtnLeft.addEventListener('click', goPrevious);
-containerBtnRigft.addEventListener('click', goNext);
-
+if (containerBtnLeft && containerBtnRigft) {
+    containerBtnLeft.addEventListener('click', goPrevious);
+    containerBtnRigft.addEventListener('click', goNext);
+}
 const select = document.getElementsByTagName('select')[0];
-select.addEventListener('change', function () {
-    this.blur();
-});
-
+if (select) {
+    select.addEventListener('change', function () {
+        this.blur();
+    });
+}
 const searchPanel = document.getElementsByTagName('input')[0];
 
-searchPanel.addEventListener('keydown', (e) => {
-    if (e.key == "Enter") {
-        e.preventDefault;
-        searchPanel.blur();
-    }
-})
+if (searchPanel) {
+    searchPanel.addEventListener('keydown', (e) => {
+        if (e.key == "Enter") {
+            e.preventDefault;
+            searchPanel.blur();
+        }
+    })
+}
 
-
-renderClients();
+renderClientsCl();
 // -----------------------------------------------------------
 
 function users() {
@@ -55,6 +63,10 @@ function users() {
 
 // -----------------------------------------------------------
 
+const resetBtn = document.getElementById('reset');
+if (resetBtn) {
+    resetBtn.addEventListener('click', reset);
+}
 function reset() {
     localStorage.removeItem('crm_clients-' + userNumber);
     Client.start = 0;
@@ -64,24 +76,25 @@ function reset() {
     changePageNumber();
 }
 
-async function fetchClients() {
+
+async function fetchClientsCl() {
     const cached = localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`);
     if (cached) return JSON.parse(cached);
-    const data = await fetchClientsDummy();
+    const data = await fetchClientsDummyCl();
     localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(data));
     return data;
 }
 
-async function fetchClientsDummy() {
+async function fetchClientsDummyCl() {
     try {
         const result = await fetch("https://dummyjson.com/users?limit=30").then((response) => response.json());
         const crm_clients_pr = await result.users;
         const crm_clients = [];
         crm_clients_pr.forEach((m) => {
-            crm_clients.push(new Client(m));
+            crm_clients.unshift(new Client(m));
         })
         // console.log(crm_clients);
-        const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name";
+        // const currentUser = localStorage.getItem('crm_users') ? JSON.parse(localStorage.getItem('crm_users')).name : "there was an errod getting a name";
         localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
         // console.log("fetched clients data from dummyjson.com");
         // console.log(JSON.parse(localStorage.getItem("crm_clients")));
@@ -91,13 +104,14 @@ async function fetchClientsDummy() {
     }
 }
 
-async function renderClients() {
-    const crm_clients = await fetchClients().then((res) => res.slice(Client.start, Client.end));
+export async function renderClientsCl() {
+    const crm_clients = await fetchClientsCl().then((res) => res.slice(Client.start, Client.end));
     Client.idAtAtime == 0 ? Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`)).length : Client.idAtAtime = Client.idAtAtime;
 
     const container = document.getElementById("clients_container");
-    container.innerHTML = ``
-
+    if (container) {
+        container.innerHTML = ``;
+    }
     crm_clients.forEach((m) => {
         const cardOuter = document.createElement('div');
         cardOuter.setAttribute('class', 'card-outer');
@@ -174,7 +188,9 @@ async function renderClients() {
         document.body.addEventListener('keydown', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
 
         cardOuter.appendChild(card);
-        container.appendChild(cardOuter);
+        if (container) {
+            container.appendChild(cardOuter);
+        }
     });
 }
 
@@ -241,125 +257,6 @@ function goNext() {
 }
 
 // -----------------------------------------------------------
-
-function formDisplay(someone = null) {
-    const formContainer = document.createElement('div');
-    const forma = document.createElement("form");
-    formContainer.setAttribute("class", "floating");
-    forma.innerHTML =
-        `
-        ${someone ? `
-            <h3>Edit Client</h3>
-            <span class="client-id">Id: ${someone.id}</span>
-            ` : `<h3>Add New Client</h3>`}
-        <span>
-            <label for="fname">First name:</label>
-            <input type="text" id="fname" name="fname" value="${someone ? someone.name.split(' ')[0] : ""}">
-        </span>
-
-        <span>
-        <label for="lname">Last name:</label>
-        <input type="text" id="lname" name="lname" value="${someone ? someone.name.split(' ')[1] : ""}">
-        </span>
-
-        <span>
-        <label for="company">Company name:</label>
-        <input type="text" id="company" name="company" value="${someone ? someone.company.name : ""}">
-        </span>
-
-        <span>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="${someone ? someone.email : ""}">
-        </span>
-
-        <span>
-        <label for="phone">Phone number:</label>
-        <input type="text" id="phone" name="phone" value="${someone ? someone.phone : ""}">
-        </span>
-
-        <span>
-        <label for="deal-value">Deal value:</label>
-        <input type="text" id="deal-value" name="deal-value" value="${someone ? someone.dealValue : ""}">
-        </span>
-
-        <span>
-        <label for="status">Status</label>
-        <select id="status" name="status"">
-            <option value="Lead" ${someone && someone.status === "Lead" ? "selected" : ""}>Lead</option>
-            <option value="Contacted" ${someone && someone.status === "Contacted" ? "selected" : ""}>Contacted</option>
-            <option value="Lost" ${someone && someone.status === "Lost" ? "selected" : ""}>Lost</option>
-            <option value="Won" ${someone && someone.status === "Won" ? "selected" : ""}>Won</option>
-        </select>
-        </span>
-
-        <span>
-        <button type="submit">${someone ? "Edit" : "Add"}</button>
-        <button type="button" id="cancel" onclick="closeForm">cancel</button>
-        </span>
-
-    `;
-
-    forma.setAttribute('id', 'add-form');
-    // <label for="status">Status</laberl><br>
-
-    const overlay = document.createElement('div');
-    overlay.setAttribute('id', 'overlay');
-
-    formContainer.appendChild(forma);
-    document.body.appendChild(overlay);
-    document.addEventListener('keydown', closeForm);
-    return formContainer;
-}
-
-function addClient(e) {
-    e.preventDefault();
-    const frm = e.currentTarget.querySelector('form');
-    const firstName = frm["fname"].value;
-    const lastName = frm["lname"].value;
-    const company = frm["company"].value;
-    const email = frm["email"].value;
-    const phone = frm["phone"].value;
-    const deal = frm["deal-value"].value;
-    const status = frm["status"].value;
-
-    const newClient = new Client({ firstName: firstName, lastName: lastName, company: { name: company }, email: email, phone: phone, dealValue: deal, status: status });
-
-    const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`));
-    crm_clients.unshift(newClient);
-    localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
-
-    renderClients();
-
-    toast("Client was added successfully!");
-
-    document.querySelector("#add-form").parentElement.remove();
-    document.getElementById('overlay').remove();
-
-    e.currentTarget.removeEventListener("submit", addClient);
-}
-
-function closeForm(e) {
-    if (e.target == document.getElementById('cancel') || e.target == document.getElementById('overlay') || e.key == 'Escape' || e.target == document.getElementById('confirm')) {
-        const formContainer = document.getElementsByClassName('floating')[0];
-        formContainer.remove();
-        document.getElementById('overlay').remove();
-        document.removeEventListener('keydown', closeForm);
-    }
-}
-
-function addNewClient() {
-    if (document.getElementsByClassName('floating').length == 0) {
-        const formContainer = formDisplay();
-        document.body.appendChild(formContainer);
-        formContainer.addEventListener("submit", addClient);
-
-        const cancelBtn = document.getElementById('cancel');
-        const overlay = document.getElementById('overlay');
-        cancelBtn.addEventListener('click', closeForm);
-        overlay.addEventListener('click', closeForm);
-    }
-
-}
 
 // -----------------------------------------------------------
 
@@ -517,7 +414,7 @@ function copyText(e) {
     toast("Copied to clipboard!");
 }
 
-function toast(text) {
+export function toast(text) {
 
     console.log('toast!');
 
@@ -622,8 +519,9 @@ function expandClient(e) {
     contact.appendChild(email);
     contact.appendChild(phone);
 
-    parent.appendChild(contact);
-
+    setTimeout(() => {
+        parent.appendChild(contact);
+    }, 900);
     contact.addEventListener('click', (e) => { e.stopPropagation() });
     return theTimeout;
 }
