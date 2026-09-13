@@ -1,17 +1,17 @@
-console.log(window.location.href, window.location.origin);
+// console.log(window.location.href, window.location.origin);
 
-if (localStorage.getItem("crm_session") && (window.location.href === (window.location.origin + "/index.html") || (window.location.href === (window.location.origin + "/signup.html")))) {
-  // setTimeout((e) => {
-  //   window.location.replace("../index.html");
-  // }, 1000);
+// if (localStorage.getItem("crm_session") && (window.location.href === (window.location.origin + "/index.html") || (window.location.href === (window.location.origin + "/signup.html")))) {
+//   // setTimeout((e) => {
+//   //   window.location.replace("../index.html");
+//   // }, 1000);
 
-  window.location.replace("../general/dashboard.html");
+//   window.location.replace("../general/dashboard.html");
 
-} else if ((window.location.href !== (window.location.origin + "/index.html")) && (window.location.href !== (window.location.origin + "/signup.html"))) {
-  setTimeout((e) => {
-    window.location.replace("../index.html");
-  }, 1000);
-}
+// } else if ((window.location.href !== (window.location.origin + "/index.html")) && (window.location.href !== (window.location.origin + "/signup.html"))) {
+//   setTimeout((e) => {
+//     window.location.replace("../index.html");
+//   }, 1000);
+// }
 
 console.log(localStorage.getItem("crm_session"));
 
