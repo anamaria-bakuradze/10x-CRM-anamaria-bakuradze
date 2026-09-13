@@ -1,6 +1,6 @@
 import { notificationChoice, collapseNotificationDiv } from './notification.js';
 import { formDisplay, closeForm, addNewClient } from './clientValidation.js';
-
+import { filteredClients } from './filter.js';
 
 
 export class Client {
@@ -54,6 +54,12 @@ if (searchPanel) {
     })
 }
 
+const filter = document.getElementById('filter').querySelector('form');
+if (filter) {
+    console.log(filter);
+    filter.addEventListener('submit', (e) => { renderClientsCl(filteredClients(e)) });
+}
+
 renderClientsCl();
 // -----------------------------------------------------------
 
@@ -72,7 +78,7 @@ function reset() {
     Client.start = 0;
     Client.end = 10;
     Client.currentPage = 1;
-    renderClients();
+    renderClientsCl();
     changePageNumber();
 }
 
@@ -104,8 +110,13 @@ async function fetchClientsDummyCl() {
     }
 }
 
-export async function renderClientsCl() {
-    const crm_clients = await fetchClientsCl().then((res) => res.slice(Client.start, Client.end));
+export async function renderClientsCl(clients = null) {
+    let crm_clients = [];
+    if (clients) { crm_clients = clients; }
+    else {
+        crm_clients = await fetchClientsCl().then((res) => res.slice(Client.start, Client.end));
+    }
+
     Client.idAtAtime == 0 ? Client.idAtAtime = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`)).length : Client.idAtAtime = Client.idAtAtime;
 
     const container = document.getElementById("clients_container");
@@ -156,9 +167,12 @@ export async function renderClientsCl() {
         let timeout = setInterval(() => {
             setTimeout
         }, 100000000000000);
+        let secondTimeout = setInterval(() => {
+            setTimeout
+        }, 100000000000000);
         let clientisOpen = false;
-        notes.addEventListener('mouseenter', (e) => { timeout = expandClient(e); clientisOpen = true; });
-        notes.addEventListener('mouseleave', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
+        notes.addEventListener('mouseenter', (e) => { [timeout, secondTimeout] = expandClient(e); clientisOpen = true; });
+        notes.addEventListener('mouseleave', (e) => { clientisOpen = collapseClient(e, [timeout, secondTimeout], clientisOpen, card); });
 
         const editBtn = rightHalf.getElementsByClassName('edit-client')[0];
         editBtn.addEventListener('click', (e) => editClient(e));
@@ -184,8 +198,8 @@ export async function renderClientsCl() {
             clientisOpen = true;
         });
 
-        document.body.addEventListener('click', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
-        document.body.addEventListener('keydown', (e) => { clientisOpen = collapseClient(e, timeout, clientisOpen, card); });
+        document.body.addEventListener('click', (e) => { clientisOpen = collapseClient(e, [timeout, secondTimeout], clientisOpen, card); });
+        document.body.addEventListener('keydown', (e) => { clientisOpen = collapseClient(e, [timeout, secondTimeout], clientisOpen, card); });
 
         cardOuter.appendChild(card);
         if (container) {
@@ -223,14 +237,14 @@ function goPrevious() {
         Client.start -= 10;
         Client.end = Client.start + 10;
         Client.currentPage -= 1;
-        renderClients();
+        renderClientsCl();
         changePageNumber();
 
     } else if (Client.start > 0) {
         Client.end -= Client.start;
         Client.start = 0;
         Client.currentPage -= 1;
-        renderClients();
+        renderClientsCl();
         changePageNumber();
     }
 
@@ -242,14 +256,14 @@ function goNext() {
         Client.currentPage += 1;
         Client.end += 10;
         Client.start += 10;
-        renderClients();
+        renderClientsCl();
         changePageNumber();
     } else if (Client.end < actualEnd) {
         Client.currentPage += 1;
         // Client.start += actualEnd - Client.end; 
         Client.start += 10;
         Client.end = actualEnd;
-        renderClients();
+        renderClientsCl();
         changePageNumber();
 
     }
@@ -317,7 +331,7 @@ function updateClient(e) {
         crm_clients[crm_clients.findIndex((m) => m.id == id)] = client;
         localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
 
-        renderClients();
+        renderClientsCl();
 
         document.querySelector(".floating").remove();
         document.getElementById('overlay').remove();
@@ -328,7 +342,8 @@ function updateClient(e) {
         const image = document.createElement("img");
         image.setAttribute("src", "../components/stars.png");
         toast.appendChild(image);
-        document.body.appendChild(toast);
+        const toastContainer = document.getElementById('toast-container');
+        toastContainer.appendChild(toast);
         setTimeout(() => { toast.remove() }, 1000);
         e.currentTarget.removeEventListener("submit", updateClient);
     });
@@ -350,7 +365,7 @@ function deleteClient(e) {
     overlay.addEventListener('click', closeForm);
 
     const confirmBtn = document.createElement('button');
-    confirmBtn.textContent = "Confirm Edit";
+    confirmBtn.textContent = "Confirm Delete";
     confirmBtn.setAttribute('id', 'confirm');
     confirmBtn.addEventListener('click', (e) => {
         const crm_clients = JSON.parse(localStorage.getItem(`crm_clients-${userNumber ? userNumber : ""}`));
@@ -358,7 +373,7 @@ function deleteClient(e) {
         if (clientIndex !== -1) {
             crm_clients.splice(clientIndex, 1);
             localStorage.setItem(`crm_clients-${userNumber ? userNumber : ""}`, JSON.stringify(crm_clients));
-            renderClients();
+            renderClientsCl();
             closeForm(e);
         }
     });
@@ -462,8 +477,9 @@ export function toast(text) {
     toast.getElementsByClassName('ed-toast__dismiss')[0].addEventListener('click', () => { collapseToast(toast, timeout) });
 }
 
-function collapseToast(toast, timeout) {
-    clearTimeout(timeout);
+function collapseToast(toast, timeouts) {
+    clearTimeout(timeouts[0]);
+    clearTimeout(timeouts[1]);
     toast.removeEventListener('click', collapseToast);
     toast.remove();
 }
@@ -492,38 +508,39 @@ function expandClient(e) {
         // clientDetails.style.transition = "opacity 0.4s";
     }, 300);
 
+    const theSecondTimeout = setTimeout(() => {
+        const contact = document.createElement('div');
+        contact.classList.add('contact-details');
+        const h4ForContact = document.createElement('h4');
+        h4ForContact.textContent = "Contact information:";
 
-    const contact = document.createElement('div');
-    contact.classList.add('contact-details');
-    const h4ForContact = document.createElement('h4');
-    h4ForContact.textContent = "Contact information:";
+        const copyBtn = document.createElement('button');
+        copyBtn.addEventListener('click', (e) => copyText(e));
+        const copyImg = document.createElement('img');
+        copyImg.setAttribute('src', '../components/copy.png');
+        copyBtn.appendChild(copyImg);
+        const clone = copyBtn.cloneNode(true);
+        clone.addEventListener('click', (e) => copyText(e));
 
-    const copyBtn = document.createElement('button');
-    copyBtn.addEventListener('click', (e) => copyText(e));
-    const copyImg = document.createElement('img');
-    copyImg.setAttribute('src', '../components/copy.png');
-    copyBtn.appendChild(copyImg);
-    const clone = copyBtn.cloneNode(true);
-    clone.addEventListener('click', (e) => copyText(e));
+        const email = document.createElement('span');
 
-    const email = document.createElement('span');
+        email.textContent = m.email;
+        email.appendChild(copyBtn);
 
-    email.textContent = m.email;
-    email.appendChild(copyBtn);
+        const phone = document.createElement('span');
+        phone.textContent = m.phone;
+        phone.appendChild(clone);
 
-    const phone = document.createElement('span');
-    phone.textContent = m.phone;
-    phone.appendChild(clone);
+        contact.appendChild(h4ForContact);
+        contact.appendChild(email);
+        contact.appendChild(phone);
 
-    contact.appendChild(h4ForContact);
-    contact.appendChild(email);
-    contact.appendChild(phone);
 
-    setTimeout(() => {
         parent.appendChild(contact);
+        contact.addEventListener('click', (e) => { e.stopPropagation() });
     }, 900);
-    contact.addEventListener('click', (e) => { e.stopPropagation() });
-    return theTimeout;
+
+    return [theTimeout, theSecondTimeout];
 }
 
 function collapseClient(e, timeout, enabled = false, caller = null) {
@@ -538,6 +555,7 @@ function collapseClient(e, timeout, enabled = false, caller = null) {
                 const parent = caller;
                 const notes = parent.querySelector('.notes');
                 const clientDetails = parent.querySelector('.contact-details');
+                // console.log(parent);
                 clientDetails.remove();
                 parent.style.height = '';
                 parent.style.backgroundColor = '';
@@ -552,5 +570,5 @@ function collapseClient(e, timeout, enabled = false, caller = null) {
 }
 
 function isOpen() {
-    //in case collapseClient() leaved renderClients() function in case we want to avoid calling it all the time something is clicked;
+    //in case collapseClient() leaved renderClientsCl() function in case we want to avoid calling it all the time something is clicked;
 }

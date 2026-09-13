@@ -119,6 +119,7 @@
     overflow: scroll;
     overflow-x: hidden; */
     box-shadow: inset 0 5px 25px rgb(139, 139, 139);
+    min-height: 30rem;
 }
 
 #client_container::-webkit-scrollbar-thumb {
@@ -338,22 +339,24 @@
     }
 
     .contact-details {
-        position: fixed;
+        position: absolute;
         color: inherit;
         top: 8rem;
-        padding: 0 2rem;
+        padding: 0 1rem;
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         gap: 0.02rem;
         /* opacity: 0; */
         /* text-align: center; */
-
+        max-width: 10rem;
+        overflow: ;
 
         &>span {
             display: flex;
             align-items: center;
-            /* flex-wrap: wrap; */
-            width: 14rem;
+            flex-wrap: wrap;
+            /* max-width: 10rem; */
             font-size: 0.9rem;
 
             &>button {
